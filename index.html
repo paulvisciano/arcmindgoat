@@ -1,0 +1,1855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="theme-color" content="#030303">
+  <meta name="description" content="Walk The ARC Path through an infinite black-and-gold Torii corridor. Discover ARC teachings at Flower of Life stones: Align, Resonate, Connect.">
+  <meta property="og:title" content="The ARC Path — ARCMINDGOAT">
+  <meta property="og:description" content="You contain it all. Recognize the belief. Choose the meaning. Take aligned action.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/arc-3d-visual-target.png">
+  <title>The ARC Path — ARCMINDGOAT</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #030303;
+      --black-soft: #090908;
+      --panel: rgba(7, 7, 6, 0.92);
+      --gold: #c99c3c;
+      --gold-light: #f1d378;
+      --gold-deep: #77501b;
+      --cream: #f3eee2;
+      --muted: #aaa295;
+      --line: rgba(218, 175, 78, 0.28);
+      --line-strong: rgba(241, 211, 120, 0.58);
+      --serif: "Cormorant Garamond", Georgia, serif;
+      --sans: "Manrope", Arial, sans-serif;
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+      --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: var(--black); }
+    body { color: var(--cream); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+    button, input { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button { color: inherit; }
+    :focus-visible { outline: 2px solid var(--gold-light); outline-offset: 4px; }
+
+    #world {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      background: #030303;
+      touch-action: none;
+    }
+
+    .noise {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      opacity: 0.14;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.16'/%3E%3C/svg%3E");
+      mix-blend-mode: soft-light;
+    }
+
+    .vignette {
+      position: fixed;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+      background: radial-gradient(circle at 50% 45%, transparent 35%, rgba(0, 0, 0, 0.22) 72%, rgba(0, 0, 0, 0.82) 100%);
+    }
+
+    .hidden { display: none !important; }
+
+    .loader {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: grid;
+      place-items: center;
+      background: var(--black);
+      transition: opacity 500ms var(--ease-out), visibility 500ms;
+    }
+    .loader.complete { opacity: 0; visibility: hidden; }
+    .loader-inner { display: grid; justify-items: center; gap: 18px; }
+    .loader-mark {
+      width: 68px;
+      aspect-ratio: 1;
+      border: 1px solid var(--line-strong);
+      border-radius: 50%;
+      position: relative;
+      animation: breathe 1.8s ease-in-out infinite;
+    }
+    .loader-mark::before,
+    .loader-mark::after { content: ""; position: absolute; background: var(--gold-light); }
+    .loader-mark::before { left: 15px; top: 22px; width: 36px; height: 3px; box-shadow: -5px 9px 0 -0.5px var(--gold-light), 5px 9px 0 -0.5px var(--gold-light); }
+    .loader-mark::after { left: 20px; top: 31px; width: 3px; height: 20px; box-shadow: 23px 0 0 var(--gold-light); }
+    .loader span { color: var(--muted); font-size: 0.62rem; letter-spacing: 0.24em; text-transform: uppercase; }
+    @keyframes breathe { 50% { transform: scale(1.04); box-shadow: 0 0 34px rgba(241, 211, 120, 0.16); } }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--cream);
+      text-decoration: none;
+    }
+    .brand-symbol {
+      position: relative;
+      width: 42px;
+      aspect-ratio: 1;
+      flex: 0 0 auto;
+      border: 1px solid var(--line-strong);
+      border-radius: 50%;
+      box-shadow: 0 0 24px rgba(241, 211, 120, 0.08);
+    }
+    .brand-symbol::before,
+    .brand-symbol::after { content: ""; position: absolute; background: var(--gold-light); }
+    .brand-symbol::before { left: 10px; top: 13px; width: 20px; height: 2px; box-shadow: -3px 6px 0 -0.4px var(--gold-light), 3px 6px 0 -0.4px var(--gold-light); }
+    .brand-symbol::after { left: 13px; top: 19px; width: 2px; height: 13px; box-shadow: 12px 0 0 var(--gold-light); }
+    .brand-copy strong { display: block; font-family: var(--serif); font-size: 1rem; font-weight: 600; letter-spacing: 0.14em; }
+    .brand-copy small { display: block; margin-top: 2px; color: var(--muted); font-size: 0.52rem; letter-spacing: 0.19em; text-transform: uppercase; }
+
+    .threshold {
+      position: fixed;
+      inset: 0;
+      z-index: 30;
+      overflow: hidden;
+      background: linear-gradient(90deg, rgba(0, 0, 0, 0.94) 0%, rgba(0, 0, 0, 0.72) 42%, rgba(0, 0, 0, 0.18) 100%);
+      transition: opacity 900ms var(--ease-in-out), visibility 900ms;
+    }
+    .threshold.exited { opacity: 0; visibility: hidden; pointer-events: none; }
+    .threshold.exited .threshold-header { opacity: 0; visibility: hidden; transition: none; }
+    .threshold-header {
+      position: absolute;
+      top: 26px;
+      right: 32px;
+      left: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .text-button,
+    .primary-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      text-decoration: none;
+      box-sizing: border-box;
+    }
+    .text-button {
+      min-height: 42px;
+      border: 1px solid var(--line-strong);
+      background: rgba(0, 0, 0, 0.35);
+      padding: 0 20px;
+      color: var(--gold-light);
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 0.17em;
+      text-transform: uppercase;
+      backdrop-filter: blur(8px);
+      transition: background 160ms var(--ease-out), color 160ms var(--ease-out), transform 160ms var(--ease-out), border-color 160ms var(--ease-out);
+    }
+    .text-button:hover { background: var(--gold-light); color: var(--black); border-color: var(--gold-light); }
+    .text-button:active, .primary-button:active, .control-button:active { transform: scale(0.97); }
+    .header-actions { display: flex; align-items: center; gap: 10px; }
+    .threshold-header .text-button,
+    .about-header .text-button { border-radius: 999px; }
+
+    .threshold-content {
+      position: absolute;
+      top: 50%;
+      left: clamp(26px, 7vw, 110px);
+      width: min(680px, calc(100% - 52px));
+      transform: translateY(-44%);
+    }
+    .eyebrow { margin: 0 0 18px; color: var(--gold-light); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.25em; line-height: 1.5; text-transform: uppercase; }
+    .threshold h1 { margin: 0 0 26px; font-family: var(--serif); font-size: clamp(4.2rem, 8.5vw, 8.9rem); font-weight: 500; letter-spacing: -0.045em; line-height: 0.75; text-transform: uppercase; }
+    .threshold h1 span { display: block; color: var(--gold-light); }
+    .threshold-copy { max-width: 570px; margin: 0 0 32px; color: #c9c2b6; font-size: clamp(1rem, 1.6vw, 1.18rem); line-height: 1.8; }
+    .primary-button {
+      min-height: 54px;
+      border: 1px solid var(--gold-light);
+      background: var(--gold-light);
+      padding: 0 26px;
+      color: var(--black);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      transition: transform 160ms var(--ease-out), background 160ms var(--ease-out);
+    }
+    .primary-button:hover { background: #ffe9a8; }
+    .threshold-note { margin-top: 18px; color: #716b62; font-size: 0.58rem; letter-spacing: 0.16em; text-transform: uppercase; }
+
+    .hud {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 500ms var(--ease-out), visibility 500ms;
+    }
+    .hud.visible { opacity: 1; visibility: visible; }
+    .hud-top {
+      position: absolute;
+      top: 22px;
+      right: 28px;
+      left: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .hud .brand, .hud button { pointer-events: auto; }
+    .hud-actions { display: flex; gap: 10px; }
+    .hud-action {
+      min-height: 40px;
+      border: 1px solid var(--line);
+      background: rgba(3, 3, 3, 0.52);
+      padding: 0 16px;
+      color: var(--cream);
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      backdrop-filter: blur(10px);
+      transition: border-color 160ms var(--ease-out), color 160ms var(--ease-out), background 160ms var(--ease-out);
+    }
+    .hud-action:hover { border-color: var(--line-strong); color: var(--gold-light); background: rgba(3, 3, 3, 0.8); }
+
+    .journey-rail {
+      position: absolute;
+      top: 50%;
+      right: 26px;
+      display: grid;
+      gap: 17px;
+      transform: translateY(-50%);
+      pointer-events: auto;
+    }
+    .journey-rail::before { content: ""; position: absolute; top: 5px; bottom: 5px; left: 50%; width: 1px; background: rgba(241, 211, 120, 0.28); transform: translateX(-50%); }
+    .rail-node {
+      position: relative;
+      z-index: 1;
+      width: 12px;
+      height: 12px;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      background: var(--black);
+      padding: 0;
+      transition: transform 180ms var(--ease-out), background 180ms var(--ease-out), box-shadow 180ms var(--ease-out);
+    }
+    .rail-node:hover, .rail-node.current { transform: scale(1.35); background: var(--gold-light); box-shadow: 0 0 16px rgba(241, 211, 120, 0.5); }
+    .rail-node.visited { background: var(--gold-deep); }
+
+    .movement-hint {
+      position: absolute;
+      bottom: 26px;
+      left: 50%;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: rgba(243, 238, 226, 0.62);
+      font-size: 0.59rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      transform: translateX(-50%);
+      transition: opacity 350ms var(--ease-out);
+    }
+    .movement-hint.faded { opacity: 0.2; }
+    .key { display: inline-grid; width: 29px; height: 29px; place-items: center; border: 1px solid var(--line-strong); color: var(--gold-light); }
+
+    .mobile-controls {
+      position: absolute;
+      right: 18px;
+      bottom: 22px;
+      display: none;
+      gap: 8px;
+      pointer-events: auto;
+    }
+    .control-button {
+      width: 54px;
+      height: 54px;
+      border: 1px solid var(--line-strong);
+      border-radius: 50%;
+      background: rgba(3, 3, 3, 0.72);
+      color: var(--gold-light);
+      font-size: 1.1rem;
+      backdrop-filter: blur(10px);
+      touch-action: none;
+    }
+
+    .station-name {
+      position: absolute;
+      bottom: 28px;
+      left: 28px;
+      max-width: 340px;
+      color: var(--muted);
+      font-size: 0.6rem;
+      letter-spacing: 0.17em;
+      line-height: 1.6;
+      text-transform: uppercase;
+    }
+    .station-name strong { display: block; color: var(--gold-light); font-family: var(--serif); font-size: 1.15rem; font-weight: 500; letter-spacing: 0.04em; text-transform: none; }
+
+    .insight {
+      position: fixed;
+      z-index: 40;
+      inset: 0;
+      display: grid;
+      align-items: center;
+      justify-items: end;
+      padding: 84px clamp(24px, 6vw, 92px);
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+      background: linear-gradient(90deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.22) 45%, rgba(0, 0, 0, 0.66));
+      transition: opacity 300ms var(--ease-out), visibility 300ms;
+    }
+    .insight.open { opacity: 1; visibility: visible; pointer-events: auto; }
+    .insight-card {
+      position: relative;
+      width: min(590px, 100%);
+      max-height: calc(100svh - 110px);
+      overflow-y: auto;
+      border: 1px solid var(--line-strong);
+      background: var(--panel);
+      padding: clamp(28px, 5vw, 56px);
+      box-shadow: 0 34px 120px rgba(0, 0, 0, 0.72), inset 0 0 70px rgba(201, 156, 60, 0.035);
+      backdrop-filter: blur(18px);
+      transform: translateX(24px);
+      transition: transform 400ms var(--ease-out);
+    }
+    .insight.open .insight-card { transform: translateX(0); }
+    .insight-index { margin: 0 0 12px; color: var(--gold-light); font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; }
+    .insight-question { margin: 0 0 22px; font-family: var(--serif); font-size: clamp(2.3rem, 4vw, 4rem); font-weight: 500; letter-spacing: -0.035em; line-height: 0.95; }
+    .insight-title { margin: 0 0 16px; color: var(--gold-light); font-family: var(--serif); font-size: 1.6rem; font-weight: 500; }
+    .insight-body { margin: 0; color: #c7c0b5; line-height: 1.8; }
+    .reflection {
+      margin: 28px 0;
+      border-left: 1px solid var(--gold-light);
+      padding: 3px 0 3px 20px;
+      color: var(--cream);
+      font-family: var(--serif);
+      font-size: 1.35rem;
+      line-height: 1.35;
+    }
+    .action-block { border-top: 1px solid var(--line); padding-top: 22px; }
+    .action-block span { display: block; margin-bottom: 8px; color: var(--gold); font-size: 0.59rem; letter-spacing: 0.18em; text-transform: uppercase; }
+    .action-block p { margin: 0; color: #d5cdc0; line-height: 1.65; }
+    .insight-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+
+    .drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 44;
+      background: rgba(0, 0, 0, 0.56);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 250ms var(--ease-out), visibility 250ms;
+    }
+    .drawer-backdrop.open { opacity: 1; visibility: visible; }
+    .drawer {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 45;
+      width: min(470px, 92vw);
+      overflow-y: auto;
+      border-right: 1px solid var(--line-strong);
+      background: rgba(5, 5, 4, 0.96);
+      padding: 28px 28px 42px;
+      backdrop-filter: blur(22px);
+      transform: translateX(-102%);
+      transition: transform 380ms var(--ease-out);
+    }
+    .drawer.open { transform: translateX(0); }
+    .drawer-head { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 38px; }
+    .close-button { width: 40px; height: 40px; border: 1px solid var(--line); background: transparent; color: var(--cream); font-size: 1.1rem; }
+    .drawer h2 { margin: 0 0 12px; font-family: var(--serif); font-size: 3rem; font-weight: 500; line-height: 0.95; }
+    .drawer-intro { margin-bottom: 26px; color: var(--muted); line-height: 1.7; }
+    .question-list { display: grid; }
+    .question-link {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 12px;
+      border: 0;
+      border-top: 1px solid var(--line);
+      background: transparent;
+      padding: 18px 0;
+      text-align: left;
+      transition: color 160ms var(--ease-out), padding-left 160ms var(--ease-out);
+    }
+    .question-link:hover { color: var(--gold-light); padding-left: 6px; }
+    .question-link span { color: var(--gold); font-size: 0.62rem; letter-spacing: 0.12em; }
+    .question-link strong { font-family: var(--serif); font-size: 1.22rem; font-weight: 500; line-height: 1.2; }
+
+    .about {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      overflow-y: auto;
+      background:
+        radial-gradient(circle at 82% 18%, rgba(201, 156, 60, 0.12), transparent 28rem),
+        var(--black);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(18px);
+      transition: opacity 350ms var(--ease-out), visibility 350ms, transform 350ms var(--ease-out);
+    }
+    .about.open { opacity: 1; visibility: visible; transform: translateY(0); }
+    .about-header {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+      background: rgba(3, 3, 3, 0.88);
+      padding: 20px clamp(20px, 4vw, 56px);
+      backdrop-filter: blur(18px);
+    }
+    .about-content { width: min(1180px, calc(100% - 40px)); margin: 0 auto; padding: 90px 0 110px; }
+    .about-hero { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: clamp(44px, 9vw, 120px); align-items: end; margin-bottom: 110px; }
+    .about-kicker { color: var(--gold-light); font-size: 0.68rem; letter-spacing: 0.23em; text-transform: uppercase; }
+    .about h1 { margin: 16px 0 0; font-family: var(--serif); font-size: clamp(4.3rem, 9vw, 9rem); font-weight: 500; letter-spacing: -0.055em; line-height: 0.76; text-transform: uppercase; }
+    .about h1 span { display: block; color: var(--gold-light); }
+    .about-lede { margin: 0; color: #cbc3b6; font-family: var(--serif); font-size: clamp(1.7rem, 3.1vw, 3.3rem); line-height: 1.14; }
+    .about-grid { display: grid; grid-template-columns: 0.7fr 1.3fr; gap: clamp(50px, 9vw, 130px); }
+    .about-rail { border-top: 1px solid var(--line-strong); padding-top: 20px; }
+    .about-rail p { color: var(--muted); font-size: 0.67rem; letter-spacing: 0.18em; line-height: 1.8; text-transform: uppercase; }
+    .about-story { max-width: 720px; }
+    .about-section { margin-bottom: 72px; }
+    .about-section h2 { margin: 0 0 18px; color: var(--gold-light); font-family: var(--serif); font-size: clamp(2.4rem, 4vw, 4.2rem); font-weight: 500; line-height: 0.95; }
+    .about-section p { color: #bfb7ab; font-size: 1rem; line-height: 1.9; }
+    .about-quote { margin: 72px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 54px 0; color: var(--cream); font-family: var(--serif); font-size: clamp(2rem, 4vw, 4.4rem); line-height: 1.05; }
+    .about-quote em { color: var(--gold-light); font-style: normal; }
+    .about-footer { display: flex; flex-wrap: wrap; gap: 12px; align-items: stretch; }
+    .about-footer .primary-button,
+    .about-footer .text-button {
+      min-height: 54px;
+      padding: 0 26px;
+      font-size: 0.7rem;
+      letter-spacing: 0.16em;
+    }
+
+    .error-fallback {
+      position: fixed;
+      inset: 0;
+      z-index: 90;
+      display: none;
+      place-items: center;
+      background: linear-gradient(rgba(0, 0, 0, 0.66), rgba(0, 0, 0, 0.82)), url("assets/arc-3d-visual-target.png") center / cover no-repeat;
+      padding: 30px;
+      text-align: center;
+    }
+    .error-fallback.visible { display: grid; }
+    .error-fallback div { max-width: 620px; }
+    .error-fallback h2 { margin: 0 0 18px; color: var(--gold-light); font-family: var(--serif); font-size: 3rem; font-weight: 500; }
+    .error-fallback p { color: #cec6b8; line-height: 1.8; }
+
+    @media (max-width: 900px) {
+      .threshold { background: linear-gradient(180deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.82) 100%); }
+      .threshold-content, .threshold-header { z-index: 1; }
+      .threshold-content { transform: translateY(-38%); }
+      .about-hero, .about-grid { grid-template-columns: 1fr; }
+      .about-hero { align-items: start; margin-bottom: 80px; }
+      .about-grid { gap: 48px; }
+      .about-rail { max-width: 360px; }
+      .insight { align-items: end; padding: 90px 18px 18px; background: rgba(0, 0, 0, 0.34); }
+      .insight-card { width: 100%; max-height: 72svh; padding: 28px 24px; transform: translateY(24px); }
+      .insight.open .insight-card { transform: translateY(0); }
+    }
+
+    @media (max-width: 680px) {
+      .brand-copy small { display: none; }
+      .threshold-header { top: 18px; right: 18px; left: 18px; }
+      .threshold-header .text-button { display: none; }
+      #toggleFullscreen::before { content: "⛶"; }
+      #openQuestions::before { content: "⋮"; }
+      .hud-action[data-open-about]::before { content: "?"; }
+      .threshold-content { top: auto; bottom: 42px; left: 18px; width: calc(100% - 36px); transform: none; }
+      .threshold h1 { font-size: clamp(3.8rem, 19vw, 5.5rem); }
+      .threshold-copy { max-width: 95%; font-size: 0.95rem; line-height: 1.65; }
+      .primary-button { width: 100%; }
+      .hud-top { top: 16px; right: 16px; left: 16px; }
+      .hud-action { width: 42px; overflow: hidden; padding: 0; font-size: 0; }
+      .hud-action::before { font-size: 1.1rem; }
+      .journey-rail { right: 13px; gap: 13px; }
+      .rail-node { width: 10px; height: 10px; }
+      .movement-hint { display: none; }
+      .mobile-controls { display: flex; }
+      .station-name { bottom: 22px; left: 18px; max-width: 210px; }
+      .station-name strong { font-size: 0.98rem; }
+      .insight-question { font-size: 2.25rem; }
+      .insight-title { font-size: 1.35rem; }
+      .drawer { padding: 22px 20px 36px; }
+      .about-header { padding: 16px; }
+      .about-content { width: calc(100% - 30px); padding: 64px 0 90px; }
+      .about h1 { font-size: clamp(4rem, 20vw, 6rem); }
+      .about-lede { font-size: 1.65rem; }
+      .about-section { margin-bottom: 54px; }
+      .about-footer .primary-button, .about-footer .text-button { width: 100%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="world">Your browser needs WebGL to display the interactive ARC journey.</canvas>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <div class="loader" id="loader">
+    <div class="loader-inner">
+      <div class="loader-mark" aria-hidden="true"></div>
+      <span>Building the path</span>
+    </div>
+  </div>
+
+  <section class="threshold" id="threshold" aria-labelledby="thresholdTitle">
+    <header class="threshold-header">
+      <a class="brand" href="#" aria-label="ARCMINDGOAT">
+        <span class="brand-symbol" aria-hidden="true"></span>
+        <span class="brand-copy"><strong>ARCMINDGOAT</strong><small>Align • Resonate • Connect</small></span>
+      </a>
+      <div class="header-actions">
+        <button class="text-button" type="button" data-toggle-fullscreen>Full screen</button>
+        <button class="text-button" type="button" data-open-about>About ARC</button>
+      </div>
+    </header>
+    <div class="threshold-content">
+      <p class="eyebrow">An interactive journey through ARC</p>
+      <h1 id="thresholdTitle">You contain <span>it all.</span></h1>
+      <p class="threshold-copy">Walk through the Torii gates. Meet each Flower of Life stone. Bring the questions that trouble you. Leave with a clearer meaning and one available action.</p>
+      <button class="primary-button" id="enterPath" type="button">Enter the path &nbsp;→</button>
+      <p class="threshold-note">Best experienced with sound off and attention on</p>
+    </div>
+  </section>
+
+  <div class="hud" id="hud">
+    <div class="hud-top">
+      <a class="brand" href="#" id="returnThreshold" aria-label="Return to the beginning">
+        <span class="brand-symbol" aria-hidden="true"></span>
+        <span class="brand-copy"><strong>ARCMINDGOAT</strong><small>Align • Resonate • Connect</small></span>
+      </a>
+      <div class="hud-actions">
+        <button class="hud-action" id="toggleFullscreen" type="button" data-toggle-fullscreen aria-pressed="false">Full screen</button>
+        <button class="hud-action" id="openQuestions" type="button">Questions</button>
+        <button class="hud-action" type="button" data-open-about>About ARC</button>
+      </div>
+    </div>
+
+    <nav class="journey-rail" id="journeyRail" aria-label="Teaching stations"></nav>
+
+    <div class="station-name" id="stationName">
+      <span>Approaching</span>
+      <strong>You contain it all</strong>
+    </div>
+
+    <div class="movement-hint" id="movementHint">
+      <span>Walk</span><span class="key">W</span><span class="key">S</span><span>/ arrows / scroll / swipe</span>
+    </div>
+
+    <div class="mobile-controls" role="group" aria-label="Movement controls">
+      <button class="control-button" id="walkBack" type="button" aria-label="Walk backward">↓</button>
+      <button class="control-button" id="walkForward" type="button" aria-label="Walk forward">↑</button>
+    </div>
+  </div>
+
+  <section class="insight" id="insight" aria-modal="true" role="dialog" aria-labelledby="insightQuestion">
+    <article class="insight-card">
+      <p class="insight-index" id="insightIndex"></p>
+      <h2 class="insight-question" id="insightQuestion">A question is waiting at the stone.</h2>
+      <h3 class="insight-title" id="insightTitle">ARC teaching</h3>
+      <p class="insight-body" id="insightBody"></p>
+      <blockquote class="reflection" id="insightReflection"></blockquote>
+      <div class="action-block">
+        <span>Available action</span>
+        <p id="insightAction"></p>
+      </div>
+      <div class="insight-actions">
+        <button class="primary-button" id="continueJourney" type="button">Continue the path →</button>
+        <button class="text-button hidden" id="openFounderFromInsight" type="button">Read Eric’s journey</button>
+      </div>
+    </article>
+  </section>
+
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  <aside class="drawer" id="questionDrawer" aria-labelledby="questionsTitle">
+    <div class="drawer-head">
+      <div class="brand">
+        <span class="brand-symbol" aria-hidden="true"></span>
+        <span class="brand-copy"><strong>ARCMINDGOAT</strong><small>Question navigator</small></span>
+      </div>
+      <button class="close-button" id="closeQuestions" type="button" aria-label="Close questions">×</button>
+    </div>
+    <p class="eyebrow">Walk directly to a teaching</p>
+    <h2 id="questionsTitle">What is asking for your attention?</h2>
+    <p class="drawer-intro">Choose a question to arrive near its Flower of Life stone. You can still walk the whole path in sequence.</p>
+    <div class="question-list" id="questionList"></div>
+  </aside>
+
+  <section class="about" id="about" aria-labelledby="aboutTitle">
+    <header class="about-header">
+      <a class="brand" href="#" aria-label="ARCMINDGOAT">
+        <span class="brand-symbol" aria-hidden="true"></span>
+        <span class="brand-copy"><strong>ARCMINDGOAT</strong><small>Eric Padilla • Founder</small></span>
+      </a>
+      <button class="text-button" id="closeAbout" type="button">Return to the path</button>
+    </header>
+
+    <div class="about-content">
+      <div class="about-hero">
+        <div>
+          <span class="about-kicker">About Eric &amp; ARC</span>
+          <h1 id="aboutTitle">The journey <span>to ARC.</span></h1>
+        </div>
+        <p class="about-lede">My objective is empowerment: helping people recognize their authority, hear what is true for them, and participate in the life they choose.</p>
+      </div>
+
+      <div class="about-grid">
+        <aside class="about-rail" aria-label="ARC founder and principles">
+          <p>Eric Padilla<br>Founder of ARC<br><br>Align<br>Resonate<br>Connect<br><br>Growth<br>Ownership<br>Alignment<br>Transformation</p>
+        </aside>
+
+        <div class="about-story">
+          <section class="about-section">
+            <p class="eyebrow">What travel revealed</p>
+            <h2>Different worlds. The same human question.</h2>
+            <p>Through my travels, I met people shaped by different cultures, beliefs, languages, responsibilities, and possibilities. Yet I kept encountering a shared question beneath the surface: <strong>How do I live as who I truly am?</strong></p>
+            <p>I saw that empowerment is not giving someone a value they do not possess. It is helping them recognize what is already present, examine the beliefs and meanings shaping their experience, and take an action that expresses their own authority.</p>
+          </section>
+
+          <blockquote class="about-quote">You contain the capacity to <em>be, do, and have</em> a life aligned with what you consciously choose.</blockquote>
+
+          <section class="about-section">
+            <p class="eyebrow">Why ARC</p>
+            <h2>Recognition needs a way into action.</h2>
+            <p>ARC is the practice I created to make that movement visible. <strong>Align</strong> with the moment and recognize the belief. <strong>Resonate</strong> with the meaning that supports who you are. <strong>Connect</strong> through one available action, then observe what life shows you.</p>
+            <p>The philosophy begins from wholeness. The practice stays grounded in decisions, conversations, creativity, relationships, and the choices available here and now.</p>
+          </section>
+
+          <section class="about-section">
+            <p class="eyebrow">Why women are central</p>
+            <h2>Power does not need permission to exist.</h2>
+            <p>I came to see women as carrying extraordinary creative, relational, intellectual, and spiritual power. I also saw how many women still encounter expectations, structures, and experiences that suppress voice, choice, safety, resources, and recognition.</p>
+            <p>ARC Women is not about speaking over women or defining one correct form of power. It is an invitation to recognize authority, express preference, set boundaries, create, lead, receive support, and choose without having to become smaller or harder.</p>
+          </section>
+
+          <section class="about-section">
+            <p class="eyebrow">The invitation</p>
+            <h2>Bring one real moment.</h2>
+            <p>Begin with the decision, conversation, desire, or idea that is already here. Notice what you believe. Notice the meaning you are giving it. Choose what supports your expression. Take the available step.</p>
+            <p>You do not need to become worthy of your life. You begin by recognizing that you are already participating in it.</p>
+          </section>
+
+          <div class="about-footer">
+            <button class="primary-button" id="returnToJourney" type="button">Return to the path →</button>
+            <a class="text-button" href="https://www.instagram.com/arcmindgoat/" target="_blank" rel="noopener noreferrer">Follow @ARCMINDGOAT ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="error-fallback" id="errorFallback">
+    <div>
+      <p class="eyebrow">The ARC Path</p>
+      <h2>The 3D path could not open in this browser.</h2>
+      <p>The teaching remains available through the About ARC journey. Try a current version of Chrome, Safari, Firefox, or Edge for the full walkable experience.</p>
+      <button class="primary-button" type="button" data-open-about>Open About ARC</button>
+    </div>
+  </div>
+
+  <script type="module">
+    import * as THREE from "./assets/three.module.js";
+
+    const TEACHINGS = [
+      {
+        title: "You contain it all",
+        question: "Why do I keep feeling like something is missing?",
+        body: "ARC begins from wholeness. The practice is not about manufacturing worth, permission, or possibility. It is about recognizing the qualities and choices already available within you, then expressing them through action.",
+        reflection: "What if this moment is asking you to recognize, not acquire?",
+        action: "Name one quality you keep searching for outside yourself. Express it once today through a specific action."
+      },
+      {
+        title: "Belief shapes the view",
+        question: "Why does the same situation keep controlling how I feel?",
+        body: "A situation can be real while the meaning you give it remains open to recognition. When the same pattern returns, look beneath the reaction. A belief may be deciding what the moment means before you consciously choose.",
+        reflection: "What am I believing? What meaning am I giving this?",
+        action: "Write the meaning you have been using. Beside it, write one meaning that supports how you choose to respond now."
+      },
+      {
+        title: "Hear what lights you up",
+        question: "How do I know what I truly want?",
+        body: "You do not need a complete life plan to recognize a living signal. Begin with what holds your honest attention: an idea, conversation, preference, place, question, or contribution. Curiosity can be enough to reveal the next step.",
+        reflection: "What has my honest attention in this moment?",
+        action: "Follow one available thread for ten focused minutes. Observe whether your energy becomes clearer."
+      },
+      {
+        title: "Your voice belongs here",
+        question: "Why am I afraid to say what I really think?",
+        body: "Speaking does not require a finished answer. Your perspective can participate without controlling the outcome or demanding agreement. Ownership sounds clear, specific, and open to the other person’s reality.",
+        reflection: "What would one clear sentence sound like?",
+        action: "Say: “This matters to me. This is what I choose.” Then listen to what the conversation reveals."
+      },
+      {
+        title: "Power without hardness",
+        question: "How can I claim my power without becoming hard?",
+        body: "Power is not limited to dominance. It can look like clarity, discernment, care, a boundary, creation, leadership, rest, receiving support, or a direct no. You do not have to imitate the force that once suppressed you.",
+        reflection: "Where has being acceptable cost me my honest choice?",
+        action: "Express one preference without apology and without attack. Let clarity carry the sentence."
+      },
+      {
+        title: "Solveology",
+        question: "What do I do when I feel stuck?",
+        body: "Feeling stuck can mean the imagined step is too large, too final, or not actually available. Return to the real situation. Separate what you know from what you assume. Then reduce the next step until it can be taken.",
+        reflection: "What is the smallest observable action available now?",
+        action: "Take that action before planning the whole path. Use what happens as new information."
+      },
+      {
+        title: "Recognition into action",
+        question: "How do I stop overthinking?",
+        body: "You do not have to win every argument inside your mind. Translate recognition into a small experiment. Action gives the mind information that another hour of prediction cannot provide.",
+        reflection: "What have I already understood enough to test?",
+        action: "Choose one reversible experiment. Take it, observe, and choose again from what you learn."
+      },
+      {
+        title: "The journey to ARC",
+        question: "Why did Eric create ARC?",
+        body: "My travels kept returning me to the same objective: empowerment. I saw people everywhere asking how to live from who they are. I also saw the extraordinary power women carry and the ways voice and choice are still suppressed. ARC became my way of turning recognition into an available practice.",
+        reflection: "What changes when a person recognizes their own authority?",
+        action: "Read the founder journey, then bring one real moment of your own back to the path.",
+        founder: true
+      }
+    ];
+
+    class ArcWorld {
+      constructor(canvas) {
+        this.canvas = canvas;
+        this.scene = new THREE.Scene();
+        this.scene.background = new THREE.Color(0x000000);
+        this.scene.fog = new THREE.FogExp2(0x020201, 0.0078);
+
+        this.camera = new THREE.PerspectiveCamera(58, innerWidth / innerHeight, 0.1, 280);
+        this.camera.position.set(0, 1.88, 6.5);
+        this.camera.rotation.order = "YXZ";
+
+        this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: "high-performance" });
+        this.renderer.setSize(innerWidth, innerHeight);
+        this.renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+        this.renderer.outputColorSpace = THREE.SRGBColorSpace;
+        this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        this.renderer.toneMappingExposure = 1.16;
+
+        this.clock = new THREE.Clock();
+        this.distance = 0;
+        this.velocity = 0;
+        this.intent = 0;
+        this.impulse = 0;
+        this.pointerX = 0;
+        this.pointerY = 0;
+        this.enabled = false;
+        this.demo = new URLSearchParams(location.search).has("demo");
+
+        this.gateSpacing = 9;
+        this.gateCount = 18;
+        this.gates = [];
+        this.pathSegments = [];
+        this.stationMeshes = [];
+
+        this.createMaterials();
+        this.createEnvironment();
+        this.createGatePool();
+        this.createPath();
+        this.createParticles();
+        this.createStations();
+        this.bindResize();
+      }
+
+      makeNoise(seed = 42) {
+        const perm = new Uint8Array(512);
+        const p = new Uint8Array(256);
+        for (let i = 0; i < 256; i += 1) p[i] = i;
+        let s = seed;
+        const rnd = () => { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; };
+        for (let i = 255; i > 0; i -= 1) {
+          const j = (rnd() * (i + 1)) | 0;
+          const t = p[i]; p[i] = p[j]; p[j] = t;
+        }
+        for (let i = 0; i < 512; i += 1) perm[i] = p[i & 255];
+        const fade = t => t * t * t * (t * (t * 6 - 15) + 10);
+        const lerp = (a, b, t) => a + t * (b - a);
+        const grad = (h, x, y) => ((h & 1) ? -x : x) + ((h & 2) ? -y : y);
+        const noise = (x, y) => {
+          const xi = Math.floor(x) & 255;
+          const yi = Math.floor(y) & 255;
+          const xf = x - Math.floor(x);
+          const yf = y - Math.floor(y);
+          const u = fade(xf);
+          const v = fade(yf);
+          const aa = perm[perm[xi] + yi];
+          const ab = perm[perm[xi] + yi + 1];
+          const ba = perm[perm[xi + 1] + yi];
+          const bb = perm[perm[xi + 1] + yi + 1];
+          return lerp(
+            lerp(grad(aa, xf, yf), grad(ba, xf - 1, yf), u),
+            lerp(grad(ab, xf, yf - 1), grad(bb, xf - 1, yf - 1), u),
+            v
+          );
+        };
+        const fbm = (x, y, octaves = 5) => {
+          let value = 0;
+          let amp = 0.5;
+          let freq = 1;
+          for (let i = 0; i < octaves; i += 1) {
+            value += amp * noise(x * freq, y * freq);
+            amp *= 0.5;
+            freq *= 2;
+          }
+          return value;
+        };
+        return { noise, fbm };
+      }
+
+      canvasToTexture(canvas, { colorSpace = THREE.NoColorSpace, repeatX = 1, repeatY = 1 } = {}) {
+        const tex = new THREE.CanvasTexture(canvas);
+        tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+        tex.colorSpace = colorSpace;
+        tex.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
+        tex.repeat.set(repeatX, repeatY);
+        tex.needsUpdate = true;
+        return tex;
+      }
+
+      makeMarbleMaps(size = 768) {
+        const { fbm } = this.makeNoise(91);
+        const albedo = document.createElement("canvas");
+        albedo.width = albedo.height = size;
+        const bump = document.createElement("canvas");
+        bump.width = bump.height = size;
+        const rough = document.createElement("canvas");
+        rough.width = rough.height = size;
+        const a = albedo.getContext("2d", { willReadFrequently: true });
+        const b = bump.getContext("2d", { willReadFrequently: true });
+        const r = rough.getContext("2d", { willReadFrequently: true });
+        const ai = a.createImageData(size, size);
+        const bi = b.createImageData(size, size);
+        const ri = r.createImageData(size, size);
+
+        for (let y = 0; y < size; y += 1) {
+          for (let x = 0; x < size; x += 1) {
+            const nx = x / size;
+            const ny = y / size;
+            const warp = fbm(nx * 2.4, ny * 2.4, 4);
+            const n = fbm(nx * 4.2 + warp * 1.1, ny * 4.2 + warp * 0.9, 5);
+            const veinA = Math.pow(1 - Math.min(1, Math.abs(Math.sin(n * 7.4))), 16);
+            const veinB = Math.pow(1 - Math.min(1, Math.abs(Math.sin(n * 3.2 + 1.3))), 22) * 0.35;
+            const vein = Math.min(1, veinA + veinB);
+            const grain = 0.5 + 0.5 * fbm(nx * 28, ny * 28, 3);
+            const base = 6 + grain * 9;
+            const pale = vein * 150;
+            const gold = vein * 70;
+            const i = (y * size + x) * 4;
+            ai.data[i] = Math.min(255, base + pale * 0.55 + gold * 0.7);
+            ai.data[i + 1] = Math.min(255, base * 0.92 + pale * 0.48 + gold * 0.48);
+            ai.data[i + 2] = Math.min(255, base * 0.78 + pale * 0.32 + gold * 0.18);
+            ai.data[i + 3] = 255;
+            const bumpV = Math.min(255, base * 5 + vein * 90);
+            bi.data[i] = bi.data[i + 1] = bi.data[i + 2] = bumpV;
+            bi.data[i + 3] = 255;
+            const roughV = Math.max(22, 78 - vein * 48 + grain * 14);
+            ri.data[i] = ri.data[i + 1] = ri.data[i + 2] = roughV;
+            ri.data[i + 3] = 255;
+          }
+        }
+        a.putImageData(ai, 0, 0);
+        b.putImageData(bi, 0, 0);
+        r.putImageData(ri, 0, 0);
+        return {
+          map: this.canvasToTexture(albedo, { colorSpace: THREE.SRGBColorSpace }),
+          bumpMap: this.canvasToTexture(bump),
+          roughnessMap: this.canvasToTexture(rough)
+        };
+      }
+
+      makeFloorMaps(size = 768) {
+        const { fbm } = this.makeNoise(17);
+        const canvas = document.createElement("canvas");
+        canvas.width = canvas.height = size;
+        const rough = document.createElement("canvas");
+        rough.width = rough.height = size;
+        const ctx = canvas.getContext("2d", { willReadFrequently: true });
+        const rctx = rough.getContext("2d", { willReadFrequently: true });
+        const img = ctx.createImageData(size, size);
+        const rimg = rctx.createImageData(size, size);
+        const tiles = 3;
+        const tile = size / tiles;
+        const grout = 3;
+
+        for (let y = 0; y < size; y += 1) {
+          for (let x = 0; x < size; x += 1) {
+            const tx = x % tile;
+            const ty = y % tile;
+            const isGrout = tx < grout || ty < grout || tx > tile - grout || ty > tile - grout;
+            const nx = x / size;
+            const ny = y / size;
+            const warp = fbm(nx * 4, ny * 4, 4);
+            const n = fbm(nx * 7 + warp, ny * 7, 5);
+            const vein = Math.pow(1 - Math.min(1, Math.abs(Math.sin(n * 8))), 11);
+            const grain = 0.5 + 0.5 * fbm(nx * 30, ny * 30, 3);
+            const i = (y * size + x) * 4;
+            if (isGrout) {
+              img.data[i] = 168;
+              img.data[i + 1] = 124;
+              img.data[i + 2] = 48;
+              rimg.data[i] = rimg.data[i + 1] = rimg.data[i + 2] = 36;
+            } else {
+              const base = 6 + grain * 10;
+              const gold = vein * 160;
+              img.data[i] = Math.min(255, base + gold * 0.85);
+              img.data[i + 1] = Math.min(255, base * 0.86 + gold * 0.66);
+              img.data[i + 2] = Math.min(255, base * 0.6 + gold * 0.28);
+              rimg.data[i] = rimg.data[i + 1] = rimg.data[i + 2] = Math.max(12, 38 - vein * 22);
+            }
+            img.data[i + 3] = 255;
+            rimg.data[i + 3] = 255;
+          }
+        }
+        ctx.putImageData(img, 0, 0);
+        rctx.putImageData(rimg, 0, 0);
+        return {
+          map: this.canvasToTexture(canvas, { colorSpace: THREE.SRGBColorSpace, repeatX: 1.15, repeatY: 4.5 }),
+          bumpMap: this.canvasToTexture(canvas, { repeatX: 1.15, repeatY: 4.5 }),
+          roughnessMap: this.canvasToTexture(rough, { repeatX: 1.15, repeatY: 4.5 })
+        };
+      }
+
+      makeEnvMap() {
+        const w = 1024, h = 512;
+        const canvas = document.createElement("canvas");
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext("2d");
+        const sky = ctx.createLinearGradient(0, 0, 0, h);
+        sky.addColorStop(0, "#2a1c08");
+        sky.addColorStop(0.42, "#080705");
+        sky.addColorStop(1, "#000000");
+        ctx.fillStyle = sky;
+        ctx.fillRect(0, 0, w, h);
+        for (let i = 0; i < 28; i += 1) {
+          const x = (i * 173.5) % w;
+          const y = 30 + (i * 53) % 200;
+          const g = ctx.createRadialGradient(x, y, 0, x, y, 90);
+          g.addColorStop(0, "rgba(246,213,110,0.62)");
+          g.addColorStop(0.45, "rgba(180,120,40,0.18)");
+          g.addColorStop(1, "rgba(0,0,0,0)");
+          ctx.fillStyle = g;
+          ctx.fillRect(x - 90, y - 90, 180, 180);
+        }
+        const tex = new THREE.CanvasTexture(canvas);
+        tex.mapping = THREE.EquirectangularReflectionMapping;
+        tex.colorSpace = THREE.SRGBColorSpace;
+        const pmrem = new THREE.PMREMGenerator(this.renderer);
+        const env = pmrem.fromEquirectangular(tex).texture;
+        pmrem.dispose();
+        tex.dispose();
+        return env;
+      }
+
+      withGoldFresnel(material, strength = 0.62) {
+        material.onBeforeCompile = shader => {
+          shader.fragmentShader = shader.fragmentShader.replace(
+            "#include <opaque_fragment>",
+            `
+            float fres = pow(1.0 - clamp(dot(normalize(normal), normalize(vViewPosition)), 0.0, 1.0), 2.35);
+            outgoingLight += vec3(0.95, 0.72, 0.28) * fres * ${strength.toFixed(2)};
+            #include <opaque_fragment>
+            `
+          );
+        };
+        material.customProgramCacheKey = () => `arc-gold-fresnel-${strength}`;
+        return material;
+      }
+
+      cloneMaps(maps, repeatX, repeatY) {
+        const map = maps.map.clone();
+        const bumpMap = maps.bumpMap.clone();
+        const roughnessMap = maps.roughnessMap.clone();
+        map.repeat.set(repeatX, repeatY);
+        bumpMap.repeat.set(repeatX, repeatY);
+        roughnessMap.repeat.set(repeatX, repeatY);
+        return { map, bumpMap, roughnessMap };
+      }
+
+      createMaterials() {
+        const env = this.makeEnvMap();
+        this.scene.environment = env;
+
+        const marble = this.makeMarbleMaps();
+        const pillarMaps = this.cloneMaps(marble, 1, 2.15);
+        const beamMaps = this.cloneMaps(marble, 2.6, 0.45);
+        const floor = this.makeFloorMaps();
+
+        this.obsidian = this.withGoldFresnel(new THREE.MeshPhysicalMaterial({
+          color: 0xffffff,
+          map: pillarMaps.map,
+          bumpMap: pillarMaps.bumpMap,
+          bumpScale: 0.038,
+          roughnessMap: pillarMaps.roughnessMap,
+          roughness: 0.34,
+          metalness: 0.22,
+          envMapIntensity: 0.95,
+          clearcoat: 0.32,
+          clearcoatRoughness: 0.48
+        }), 0.7);
+
+        this.obsidianBeam = this.withGoldFresnel(new THREE.MeshPhysicalMaterial({
+          color: 0xffffff,
+          map: beamMaps.map,
+          bumpMap: beamMaps.bumpMap,
+          bumpScale: 0.04,
+          roughnessMap: beamMaps.roughnessMap,
+          roughness: 0.32,
+          metalness: 0.24,
+          envMapIntensity: 1.05,
+          clearcoat: 0.38,
+          clearcoatRoughness: 0.42
+        }), 0.55);
+
+        this.obsidianSoft = new THREE.MeshPhysicalMaterial({
+          color: 0xffffff,
+          map: marble.map,
+          bumpMap: marble.bumpMap,
+          bumpScale: 0.03,
+          roughnessMap: marble.roughnessMap,
+          roughness: 0.42,
+          metalness: 0.18,
+          envMapIntensity: 0.7,
+          clearcoat: 0.2,
+          clearcoatRoughness: 0.55
+        });
+
+        this.gold = new THREE.MeshPhysicalMaterial({
+          color: 0xe0b34a,
+          roughness: 0.16,
+          metalness: 1,
+          emissive: 0x5c3a08,
+          emissiveIntensity: 0.42,
+          envMapIntensity: 1.85,
+          clearcoat: 0.72,
+          clearcoatRoughness: 0.16
+        });
+
+        this.goldGlow = new THREE.MeshBasicMaterial({
+          color: 0xffd978,
+          transparent: true,
+          opacity: 0.88,
+          toneMapped: false
+        });
+
+        this.pathMaterial = new THREE.MeshPhysicalMaterial({
+          color: 0xffffff,
+          map: floor.map,
+          bumpMap: floor.bumpMap,
+          bumpScale: 0.028,
+          roughnessMap: floor.roughnessMap,
+          roughness: 0.08,
+          metalness: 0.62,
+          envMapIntensity: 1.55,
+          clearcoat: 1,
+          clearcoatRoughness: 0.06
+        });
+      }
+
+      createEnvironment() {
+        this.scene.add(new THREE.AmbientLight(0x4a3818, 0.18));
+        this.scene.add(new THREE.HemisphereLight(0xc9a45a, 0x050403, 0.42));
+
+        this.travelLight = new THREE.PointLight(0xf3cc72, 28, 38, 1.55);
+        this.travelLight.position.set(0, 4.8, -6);
+        this.scene.add(this.travelLight);
+
+        this.innerLeftLight = new THREE.PointLight(0xffd878, 16, 12, 1.7);
+        this.innerRightLight = new THREE.PointLight(0xffd878, 16, 12, 1.7);
+        this.scene.add(this.innerLeftLight, this.innerRightLight);
+
+        const key = new THREE.SpotLight(0xf7d57b, 14, 90, Math.PI / 6, 0.5, 1.35);
+        key.position.set(0, 14, 10);
+        key.target.position.set(0, 0, -24);
+        this.scene.add(key, key.target);
+
+        const farGlow = new THREE.PointLight(0xffe08a, 55, 130, 1.35);
+        farGlow.position.set(0, 3.1, -110);
+        this.scene.add(farGlow);
+
+        const horizon = new THREE.Mesh(
+          new THREE.CircleGeometry(1.15, 48),
+          new THREE.MeshBasicMaterial({ color: 0xffe6b0, fog: false, toneMapped: false })
+        );
+        horizon.position.set(0, 2.05, -128);
+        this.scene.add(horizon);
+        const halo = new THREE.Mesh(
+          new THREE.CircleGeometry(3.4, 48),
+          new THREE.MeshBasicMaterial({
+            color: 0xf0c56a,
+            transparent: true,
+            opacity: 0.22,
+            fog: false,
+            toneMapped: false,
+            depthWrite: false
+          })
+        );
+        halo.position.set(0, 2.05, -127.5);
+        this.scene.add(halo);
+      }
+
+      createCurvedBeamGeometry({ length = 8.9, height = 0.44, depth = 0.9, lift = 0.52, segs = 48, topTaper = 0.78 } = {}) {
+        const positions = [];
+        const uvs = [];
+        const indices = [];
+        const rings = [];
+
+        for (let i = 0; i <= segs; i += 1) {
+          const t = i / segs;
+          const x = (t - 0.5) * length;
+          const e = Math.abs(t - 0.5) * 2;
+          const yLift = Math.pow(Math.max(0, e - 0.34) / 0.66, 1.55) * lift;
+          const tip = Math.max(0, (e - 0.88) / 0.12);
+          const h = height * (1 - tip * 0.28);
+          const d = depth * (1 - tip * 0.2);
+          const zb = d * 0.5;
+          const zt = d * 0.5 * topTaper;
+          rings.push({
+            bf: [x, yLift, zb],
+            bb: [x, yLift, -zb],
+            tb: [x, yLift + h, -zt],
+            tf: [x, yLift + h, zt]
+          });
+        }
+
+        const push = (p, u, v) => {
+          positions.push(p[0], p[1], p[2]);
+          uvs.push(u, v);
+        };
+        const quad = (p00, p10, p11, p01, u0, u1, v0, v1) => {
+          const base = positions.length / 3;
+          push(p00, u0, v0);
+          push(p10, u1, v0);
+          push(p11, u1, v1);
+          push(p01, u0, v1);
+          indices.push(base, base + 1, base + 2, base, base + 2, base + 3);
+        };
+
+        for (let i = 0; i < segs; i += 1) {
+          const a = rings[i];
+          const b = rings[i + 1];
+          const u0 = i / segs;
+          const u1 = (i + 1) / segs;
+          quad(a.bf, b.bf, b.tf, a.tf, u0, u1, 0, 1);
+          quad(a.tf, b.tf, b.tb, a.tb, u0, u1, 0, 1);
+          quad(a.tb, b.tb, b.bb, a.bb, u0, u1, 0, 1);
+          quad(a.bb, b.bb, b.bf, a.bf, u0, u1, 0, 1);
+        }
+
+        const cap = (ring, reverse) => {
+          const base = positions.length / 3;
+          push(ring.bf, 0, 0);
+          push(ring.bb, 1, 0);
+          push(ring.tb, 1, 1);
+          push(ring.tf, 0, 1);
+          if (reverse) indices.push(base, base + 3, base + 2, base, base + 2, base + 1);
+          else indices.push(base, base + 1, base + 2, base, base + 2, base + 3);
+        };
+        cap(rings[0], true);
+        cap(rings[segs], false);
+
+        const geo = new THREE.BufferGeometry();
+        geo.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+        geo.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2));
+        geo.setIndex(indices);
+        geo.computeVertexNormals();
+        return geo;
+      }
+
+      createTorii() {
+        const gate = new THREE.Group();
+        const geo = this._toriiGeo || (this._toriiGeo = {
+          plinth: new THREE.CylinderGeometry(0.56, 0.64, 0.7, 8),
+          plinthGold: new THREE.CylinderGeometry(0.655, 0.655, 0.07, 8),
+          plinthFoot: new THREE.CylinderGeometry(0.67, 0.67, 0.045, 8),
+          pillar: new THREE.CylinderGeometry(0.3, 0.365, 5.5, 48),
+          innerGoldL: new THREE.CylinderGeometry(0.308, 0.373, 5.28, 8, 1, false, -0.1, 0.2),
+          innerGoldR: new THREE.CylinderGeometry(0.308, 0.373, 5.28, 8, 1, false, Math.PI - 0.1, 0.2),
+          frontGold: new THREE.CylinderGeometry(0.308, 0.373, 5.28, 6, 1, false, Math.PI * 0.5 - 0.06, 0.12),
+          collarBot: new THREE.CylinderGeometry(0.4, 0.36, 0.12, 32),
+          collarTop: new THREE.CylinderGeometry(0.34, 0.32, 0.12, 32),
+          diamond: new THREE.OctahedronGeometry(0.09, 0),
+          needle: new THREE.CylinderGeometry(0.01, 0.01, 0.62, 8),
+          bead: new THREE.SphereGeometry(0.028, 12, 10),
+          nuki: new THREE.BoxGeometry(6.72, 0.26, 0.5),
+          shimaki: new THREE.BoxGeometry(7.38, 0.36, 0.62),
+          kasagi: this.createCurvedBeamGeometry({ length: 9.15, height: 0.4, depth: 0.92, lift: 0.7, segs: 56 }),
+          kasagiCap: this.createCurvedBeamGeometry({ length: 9.22, height: 0.05, depth: 0.98, lift: 0.7, segs: 56, topTaper: 0.88 }),
+          kasagiSoffit: this.createCurvedBeamGeometry({ length: 9.05, height: 0.04, depth: 0.86, lift: 0.7, segs: 56, topTaper: 1 }),
+          emblem: new THREE.TorusGeometry(0.2, 0.038, 14, 48),
+          star: new THREE.OctahedronGeometry(0.085, 0),
+          drop: new THREE.ConeGeometry(0.045, 0.26, 10)
+        });
+
+        [-3.05, 3.05].forEach(x => {
+          const inward = x > 0 ? -1 : 1;
+          const plinth = new THREE.Mesh(geo.plinth, this.obsidian);
+          plinth.position.set(x, 0.35, 0);
+          plinth.rotation.y = Math.PI / 8;
+          gate.add(plinth);
+          const foot = new THREE.Mesh(geo.plinthFoot, this.gold);
+          foot.position.set(x, 0.022, 0);
+          foot.rotation.y = Math.PI / 8;
+          gate.add(foot);
+          const plate = new THREE.Mesh(geo.plinthGold, this.gold);
+          plate.position.set(x, 0.72, 0);
+          plate.rotation.y = Math.PI / 8;
+          gate.add(plate);
+
+          const pillar = new THREE.Mesh(geo.pillar, this.obsidian);
+          pillar.position.set(x, 3.52, 0);
+          gate.add(pillar);
+
+          const wrap = new THREE.Mesh(x < 0 ? geo.innerGoldL : geo.innerGoldR, this.gold);
+          wrap.position.set(x, 3.5, 0);
+          gate.add(wrap);
+          const front = new THREE.Mesh(geo.frontGold, this.gold);
+          front.position.set(x, 3.5, 0);
+          gate.add(front);
+
+          const collar = new THREE.Mesh(geo.collarBot, this.gold);
+          collar.position.set(x, 0.84, 0);
+          gate.add(collar);
+          const cap = new THREE.Mesh(geo.collarTop, this.gold);
+          cap.position.set(x, 6.26, 0);
+          gate.add(cap);
+
+          const ornamentX = x + inward * 0.34;
+          const diamond = new THREE.Mesh(geo.diamond, this.gold);
+          diamond.position.set(ornamentX, 3.62, 0.02);
+          diamond.scale.set(0.72, 1.35, 0.28);
+          gate.add(diamond);
+          const needle = new THREE.Mesh(geo.needle, this.gold);
+          needle.position.set(ornamentX, 4.18, 0.02);
+          gate.add(needle);
+          const needle2 = new THREE.Mesh(geo.needle, this.gold);
+          needle2.position.set(ornamentX, 3.06, 0.02);
+          gate.add(needle2);
+          const beadTop = new THREE.Mesh(geo.bead, this.gold);
+          beadTop.position.set(ornamentX, 4.5, 0.02);
+          gate.add(beadTop);
+          const beadBot = new THREE.Mesh(geo.bead, this.gold);
+          beadBot.position.set(ornamentX, 2.74, 0.02);
+          gate.add(beadBot);
+        });
+
+        const nuki = new THREE.Mesh(geo.nuki, this.obsidianBeam);
+        nuki.position.y = 5.16;
+        gate.add(nuki);
+        const nukiGold = new THREE.Mesh(new THREE.BoxGeometry(6.8, 0.045, 0.54), this.gold);
+        nukiGold.position.y = 5.3;
+        gate.add(nukiGold);
+        const nukiFront = new THREE.Mesh(new THREE.BoxGeometry(6.76, 0.14, 0.04), this.gold);
+        nukiFront.position.set(0, 5.16, 0.27);
+        gate.add(nukiFront);
+
+        const shimaki = new THREE.Mesh(geo.shimaki, this.obsidianBeam);
+        shimaki.position.y = 5.78;
+        gate.add(shimaki);
+        const shimakiGold = new THREE.Mesh(new THREE.BoxGeometry(7.46, 0.05, 0.66), this.gold);
+        shimakiGold.position.y = 5.98;
+        gate.add(shimakiGold);
+        const shimakiFront = new THREE.Mesh(new THREE.BoxGeometry(7.42, 0.2, 0.04), this.gold);
+        shimakiFront.position.set(0, 5.78, 0.33);
+        gate.add(shimakiFront);
+
+        const kasagi = new THREE.Mesh(geo.kasagi, this.obsidianBeam);
+        kasagi.position.y = 6.22;
+        gate.add(kasagi);
+        const soffit = new THREE.Mesh(geo.kasagiSoffit, this.gold);
+        soffit.position.y = 6.175;
+        gate.add(soffit);
+        const kasagiCap = new THREE.Mesh(geo.kasagiCap, this.gold);
+        kasagiCap.position.y = 6.625;
+        gate.add(kasagiCap);
+
+        const emblem = new THREE.Mesh(geo.emblem, this.gold);
+        emblem.position.set(0, 5.78, 0.36);
+        gate.add(emblem);
+        const star = new THREE.Mesh(geo.star, this.goldGlow);
+        star.position.set(0, 5.78, 0.39);
+        star.rotation.z = Math.PI / 4;
+        star.scale.set(0.7, 1.15, 0.25);
+        gate.add(star);
+
+        [-0.72, 0, 0.72].forEach(x => {
+          const drop = new THREE.Mesh(geo.drop, this.gold);
+          drop.position.set(x, 4.96, 0);
+          drop.rotation.x = Math.PI;
+          gate.add(drop);
+        });
+
+        gate.userData.phase = Math.random() * Math.PI * 2;
+        return gate;
+      }
+
+      createGatePool() {
+        for (let i = 0; i < this.gateCount; i += 1) {
+          const gate = this.createTorii();
+          gate.position.z = -3.5 - i * this.gateSpacing;
+          this.scene.add(gate);
+          this.gates.push(gate);
+        }
+      }
+
+      createPath() {
+        const segmentLength = 34;
+        for (let i = 0; i < 9; i += 1) {
+          const group = new THREE.Group();
+          const path = new THREE.Mesh(new THREE.PlaneGeometry(10.4, segmentLength), this.pathMaterial);
+          path.rotation.x = -Math.PI / 2;
+          group.add(path);
+
+          [-5.15, 5.15].forEach(x => {
+            const rail = new THREE.Mesh(new THREE.BoxGeometry(0.045, 0.028, segmentLength), this.gold);
+            rail.position.set(x, 0.018, 0);
+            group.add(rail);
+          });
+
+          for (let s = 0; s < 6; s += 1) {
+            const seam = new THREE.Mesh(new THREE.BoxGeometry(5.8, 0.018, 0.018), this.goldGlow);
+            seam.material = this.goldGlow.clone();
+            seam.material.opacity = 0.12;
+            seam.position.set(0, 0.018, -segmentLength / 2 + 3 + s * 5.4);
+            group.add(seam);
+          }
+
+          group.position.z = 6 - i * segmentLength;
+          group.userData.segmentLength = segmentLength;
+          this.scene.add(group);
+          this.pathSegments.push(group);
+        }
+      }
+
+      createParticles() {
+        const count = 720;
+        const positions = new Float32Array(count * 3);
+        const sizes = new Float32Array(count);
+        for (let i = 0; i < count; i += 1) {
+          const angle = i * 2.399963;
+          const radius = 4.2 + ((i * 1.618033) % 1) * 16;
+          positions[i * 3] = Math.cos(angle) * radius;
+          positions[i * 3 + 1] = 0.4 + ((i * 0.754877) % 1) * 9;
+          positions[i * 3 + 2] = 10 - ((i * 0.381966) % 1) * 200;
+          sizes[i] = 0.02 + ((i * 0.618) % 1) * 0.07;
+        }
+        const geometry = new THREE.BufferGeometry();
+        geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+        const material = new THREE.PointsMaterial({
+          color: 0xe8c56a,
+          size: 0.055,
+          transparent: true,
+          opacity: 0.62,
+          sizeAttenuation: true,
+          depthWrite: false
+        });
+        this.particles = new THREE.Points(geometry, material);
+        this.scene.add(this.particles);
+      }
+
+      createStations() {
+        const texture = new THREE.TextureLoader().load("assets/flower-of-life-stone.png");
+        texture.colorSpace = THREE.SRGBColorSpace;
+        texture.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
+        const inlayMat = new THREE.MeshBasicMaterial({
+          map: texture,
+          toneMapped: false
+        });
+
+        TEACHINGS.forEach((teaching, index) => {
+          const group = new THREE.Group();
+          const z = -23 - index * 29;
+
+          const base = new THREE.Mesh(new THREE.CylinderGeometry(1.36, 1.48, 0.32, 64), this.obsidianSoft);
+          base.position.y = 0.16;
+          group.add(base);
+
+          const disc = new THREE.Mesh(new THREE.CircleGeometry(1.2, 64), inlayMat);
+          disc.rotation.x = -Math.PI / 2;
+          disc.position.y = 0.325;
+          group.add(disc);
+
+          const rim = new THREE.Mesh(new THREE.TorusGeometry(1.22, 0.05, 14, 64), this.gold);
+          rim.rotation.x = Math.PI / 2;
+          rim.position.y = 0.33;
+          group.add(rim);
+
+          const halo = new THREE.Mesh(new THREE.TorusGeometry(1.55, 0.022, 12, 72), this.goldGlow.clone());
+          halo.material.opacity = 0.42;
+          halo.position.y = 1.65;
+          group.add(halo);
+
+          const light = new THREE.PointLight(0xf2ca61, 4.6, 12, 2);
+          light.position.set(0, 1.5, 0);
+          group.add(light);
+
+          group.position.set(0, 0, z);
+          group.userData = { index, z, visited: false, halo, light, baseY: 1.65 };
+          this.scene.add(group);
+          this.stationMeshes.push(group);
+        });
+      }
+
+      bindResize() {
+        this.resizeHandler = () => {
+          this.camera.aspect = innerWidth / innerHeight;
+          this.camera.updateProjectionMatrix();
+          this.renderer.setSize(innerWidth, innerHeight);
+          this.renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+        };
+        addEventListener("resize", this.resizeHandler);
+      }
+
+      setIntent(value) {
+        this.intent = value;
+      }
+
+      addImpulse(value) {
+        this.impulse = THREE.MathUtils.clamp(this.impulse + value, -5, 6);
+      }
+
+      setPointer(x, y) {
+        this.pointerX = x;
+        this.pointerY = y;
+      }
+
+      enable(value) {
+        this.enabled = value;
+        if (!value) this.intent = 0;
+      }
+
+      jumpToStation(index) {
+        const station = this.stationMeshes[index];
+        if (!station) return;
+        this.camera.position.z = station.userData.z + 6.2;
+        this.velocity = 0;
+        this.impulse = 0;
+      }
+
+      update(delta, elapsed) {
+        const dt = Math.min(delta, 0.04);
+        let desired = 0;
+        if (this.enabled) desired = this.intent * 4.2 + this.impulse;
+        if (this.demo && this.enabled) desired = Math.max(desired, 2.1);
+        this.velocity += (desired - this.velocity) * Math.min(1, dt * 4.5);
+        this.impulse *= Math.pow(0.08, dt);
+        if (!this.enabled) this.velocity *= Math.pow(0.015, dt);
+
+        this.camera.position.z -= this.velocity * dt;
+        this.camera.position.z = Math.min(6.5, this.camera.position.z);
+        this.distance += Math.abs(this.velocity * dt);
+        this.camera.position.y = 1.88 + Math.sin(elapsed * 4.4) * Math.min(Math.abs(this.velocity) * 0.013, 0.045);
+        this.camera.position.x += (this.pointerX * 0.3 - this.camera.position.x) * Math.min(1, dt * 2.6);
+        this.camera.rotation.y += (-this.pointerX * 0.055 - this.camera.rotation.y) * Math.min(1, dt * 3);
+        this.camera.rotation.x += (-this.pointerY * 0.025 - this.camera.rotation.x) * Math.min(1, dt * 3);
+
+        const z = this.camera.position.z;
+        this.travelLight.position.set(this.camera.position.x, 4.6, z - 7);
+        this.innerLeftLight.position.set(-2.15, 3.35, z - 4.2);
+        this.innerRightLight.position.set(2.15, 3.35, z - 4.2);
+
+        const gateSpan = this.gateCount * this.gateSpacing;
+        this.gates.forEach(gate => {
+          if (gate.position.z > this.camera.position.z + 12) gate.position.z -= gateSpan;
+        });
+
+        const pathSpan = this.pathSegments.length * 34;
+        this.pathSegments.forEach(segment => {
+          if (segment.position.z > this.camera.position.z + 24) segment.position.z -= pathSpan;
+        });
+
+        this.particles.position.z = this.camera.position.z * 0.18;
+        this.particles.material.opacity = 0.46 + Math.sin(elapsed * 0.7) * 0.08;
+
+        this.stationMeshes.forEach((station, index) => {
+          station.userData.halo.rotation.z += dt * (0.18 + index * 0.012);
+          station.userData.halo.position.y = station.userData.baseY + Math.sin(elapsed * 1.3 + index) * 0.08;
+          station.userData.light.intensity = 4.3 + Math.sin(elapsed * 2 + index) * 0.8;
+        });
+      }
+
+      render() {
+        const dt = this.clock.getDelta();
+        const elapsed = this.clock.elapsedTime;
+        this.update(dt, elapsed);
+        this.renderer.render(this.scene, this.camera);
+      }
+    }
+
+    class UIController {
+      constructor(world) {
+        this.world = world;
+        this.entered = false;
+        this.mode = "threshold";
+        this.currentStation = -1;
+        this.nextStation = 0;
+        this.touchStartY = 0;
+        this.touchLastY = 0;
+
+        this.loader = document.getElementById("loader");
+        this.threshold = document.getElementById("threshold");
+        this.hud = document.getElementById("hud");
+        this.insight = document.getElementById("insight");
+        this.about = document.getElementById("about");
+        this.drawer = document.getElementById("questionDrawer");
+        this.drawerBackdrop = document.getElementById("drawerBackdrop");
+        this.movementHint = document.getElementById("movementHint");
+        this.stationName = document.getElementById("stationName");
+
+        this.buildRail();
+        this.buildQuestionList();
+        this.bindUI();
+        this.bindFullscreen();
+        this.bindMovement();
+        this.updateApproachLabel();
+      }
+
+      buildRail() {
+        const rail = document.getElementById("journeyRail");
+        TEACHINGS.forEach((item, index) => {
+          const node = document.createElement("button");
+          node.type = "button";
+          node.className = "rail-node";
+          node.title = `${index + 1}. ${item.title}`;
+          node.setAttribute("aria-label", `Go to teaching ${index + 1}: ${item.title}`);
+          node.addEventListener("click", () => this.travelTo(index));
+          rail.appendChild(node);
+        });
+        this.railNodes = Array.from(rail.children);
+      }
+
+      buildQuestionList() {
+        const list = document.getElementById("questionList");
+        TEACHINGS.forEach((item, index) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "question-link";
+          button.innerHTML = `<span>${String(index + 1).padStart(2, "0")}</span><strong>${item.question}</strong>`;
+          button.addEventListener("click", () => this.travelTo(index));
+          list.appendChild(button);
+        });
+      }
+
+      bindUI() {
+        document.getElementById("enterPath").addEventListener("click", () => this.enter());
+        document.getElementById("continueJourney").addEventListener("click", () => this.closeInsight());
+        this.insight.addEventListener("click", event => {
+          if (event.target === this.insight) this.closeInsight();
+        });
+        document.getElementById("openFounderFromInsight").addEventListener("click", () => this.openAbout());
+        document.getElementById("openQuestions").addEventListener("click", () => this.openDrawer());
+        document.getElementById("closeQuestions").addEventListener("click", () => this.closeDrawer());
+        this.drawerBackdrop.addEventListener("click", () => this.closeDrawer());
+        document.querySelectorAll("[data-open-about]").forEach(button => button.addEventListener("click", () => this.openAbout()));
+        document.getElementById("closeAbout").addEventListener("click", () => this.closeAbout());
+        document.getElementById("returnToJourney").addEventListener("click", () => this.closeAbout());
+        document.getElementById("returnThreshold").addEventListener("click", event => {
+          event.preventDefault();
+          this.returnToThreshold();
+        });
+        document.addEventListener("keydown", event => {
+          if (event.key === "Escape") {
+            if (this.about.classList.contains("open")) this.closeAbout();
+            else if (this.drawer.classList.contains("open")) this.closeDrawer();
+            else if (this.insight.classList.contains("open")) this.closeInsight();
+            return;
+          }
+          if (event.target.closest("input, textarea, [contenteditable]")) return;
+          const onHome = this.mode === "threshold" && !this.about.classList.contains("open");
+          if (onHome && (event.key === "Enter" || event.key === " ")) {
+            event.preventDefault();
+            event.stopPropagation();
+            this.enter();
+          }
+        }, true);
+      }
+
+      fullscreenElement() {
+        return document.fullscreenElement || document.webkitFullscreenElement || null;
+      }
+
+      fullscreenSupported() {
+        const root = document.documentElement;
+        return typeof root.requestFullscreen === "function" || typeof root.webkitRequestFullscreen === "function";
+      }
+
+      bindFullscreen() {
+        this.fullscreenButtons = document.querySelectorAll("[data-toggle-fullscreen]");
+        if (!this.fullscreenSupported()) {
+          this.fullscreenButtons.forEach(button => {
+            button.hidden = true;
+            button.setAttribute("aria-hidden", "true");
+          });
+          return;
+        }
+        this.fullscreenButtons.forEach(button => {
+          button.addEventListener("click", () => this.toggleFullscreen());
+        });
+        const sync = () => this.syncFullscreenButtons();
+        document.addEventListener("fullscreenchange", sync);
+        document.addEventListener("webkitfullscreenchange", sync);
+        document.addEventListener("keydown", event => {
+          if (event.code !== "KeyF" || event.repeat || event.metaKey || event.ctrlKey || event.altKey) return;
+          if (event.target.closest("input, textarea, [contenteditable]")) return;
+          event.preventDefault();
+          this.toggleFullscreen();
+        });
+        this.syncFullscreenButtons();
+      }
+
+      async toggleFullscreen() {
+        try {
+          if (this.fullscreenElement()) {
+            const exit = document.exitFullscreen || document.webkitExitFullscreen;
+            if (exit) await exit.call(document);
+          } else {
+            const root = document.documentElement;
+            const request = root.requestFullscreen || root.webkitRequestFullscreen;
+            if (request) await request.call(root);
+          }
+        } catch (error) {
+          console.warn("Fullscreen was blocked", error);
+        }
+        this.syncFullscreenButtons();
+        if (this.world.resizeHandler) this.world.resizeHandler();
+      }
+
+      syncFullscreenButtons() {
+        const active = Boolean(this.fullscreenElement());
+        const label = active ? "Exit full screen" : "Full screen";
+        this.fullscreenButtons.forEach(button => {
+          button.textContent = label;
+          button.setAttribute("aria-pressed", active ? "true" : "false");
+          button.setAttribute("aria-label", label);
+        });
+      }
+
+      bindMovement() {
+        const pressed = new Set();
+        const syncKeys = () => {
+          if (pressed.has("KeyW") || pressed.has("ArrowUp")) this.world.setIntent(1);
+          else if (pressed.has("KeyS") || pressed.has("ArrowDown")) this.world.setIntent(-1);
+          else this.world.setIntent(0);
+        };
+
+        addEventListener("keydown", event => {
+          if (["KeyW", "KeyS", "ArrowUp", "ArrowDown"].includes(event.code)) {
+            event.preventDefault();
+            pressed.add(event.code);
+            syncKeys();
+            this.movementHint.classList.add("faded");
+          }
+        });
+        addEventListener("keyup", event => {
+          pressed.delete(event.code);
+          syncKeys();
+        });
+        addEventListener("blur", () => { pressed.clear(); syncKeys(); });
+
+        addEventListener("wheel", event => {
+          if (this.mode !== "journey") return;
+          event.preventDefault();
+          this.world.addImpulse(event.deltaY * 0.012);
+          this.movementHint.classList.add("faded");
+        }, { passive: false });
+
+        addEventListener("mousemove", event => {
+          this.world.setPointer((event.clientX / innerWidth - 0.5) * 2, (event.clientY / innerHeight - 0.5) * 2);
+        }, { passive: true });
+
+        this.world.canvas.addEventListener("touchstart", event => {
+          this.touchStartY = event.touches[0].clientY;
+          this.touchLastY = this.touchStartY;
+        }, { passive: true });
+        this.world.canvas.addEventListener("touchmove", event => {
+          if (this.mode !== "journey") return;
+          const y = event.touches[0].clientY;
+          const delta = this.touchLastY - y;
+          this.touchLastY = y;
+          this.world.addImpulse(delta * 0.06);
+          this.movementHint.classList.add("faded");
+        }, { passive: true });
+
+        const bindHold = (id, intent) => {
+          const element = document.getElementById(id);
+          const start = event => { event.preventDefault(); this.world.setIntent(intent); };
+          const stop = event => { event.preventDefault(); this.world.setIntent(0); };
+          element.addEventListener("pointerdown", start);
+          element.addEventListener("pointerup", stop);
+          element.addEventListener("pointercancel", stop);
+          element.addEventListener("pointerleave", stop);
+        };
+        bindHold("walkForward", 1);
+        bindHold("walkBack", -1);
+      }
+
+      enter() {
+        if (this.entered) return;
+        this.entered = true;
+        this.mode = "journey";
+        this.threshold.classList.add("exited");
+        this.hud.classList.add("visible");
+        this.world.enable(true);
+      }
+
+      returnToThreshold() {
+        this.closeDrawer();
+        this.closeInsight();
+        this.entered = false;
+        this.mode = "threshold";
+        this.threshold.classList.remove("exited");
+        this.hud.classList.remove("visible");
+        this.world.enable(false);
+      }
+
+      openInsight(index) {
+        const item = TEACHINGS[index];
+        this.mode = "insight";
+        this.currentStation = index;
+        this.world.enable(false);
+        this.world.velocity = 0;
+
+        document.getElementById("insightIndex").textContent = `Stone ${String(index + 1).padStart(2, "0")} · ${item.title}`;
+        document.getElementById("insightQuestion").textContent = item.question;
+        document.getElementById("insightTitle").textContent = item.title;
+        document.getElementById("insightBody").textContent = item.body;
+        document.getElementById("insightReflection").textContent = item.reflection;
+        document.getElementById("insightAction").textContent = item.action;
+        document.getElementById("openFounderFromInsight").classList.toggle("hidden", !item.founder);
+
+        this.insight.classList.add("open");
+        this.railNodes[index].classList.add("current");
+        this.railNodes[index].classList.add("visited");
+        this.world.stationMeshes[index].userData.visited = true;
+      }
+
+      closeInsight() {
+        if (!this.insight.classList.contains("open")) return;
+        this.insight.classList.remove("open");
+        this.railNodes.forEach(node => node.classList.remove("current"));
+        this.nextStation = Math.max(this.nextStation, this.currentStation + 1);
+        this.currentStation = -1;
+        this.mode = "journey";
+        this.world.enable(true);
+        this.updateApproachLabel();
+      }
+
+      openDrawer() {
+        this.drawer.classList.add("open");
+        this.drawerBackdrop.classList.add("open");
+      }
+
+      closeDrawer() {
+        this.drawer.classList.remove("open");
+        this.drawerBackdrop.classList.remove("open");
+      }
+
+      openAbout() {
+        this.closeDrawer();
+        if (this.insight.classList.contains("open")) this.closeInsight();
+        this.mode = "about";
+        this.world.enable(false);
+        this.about.classList.add("open");
+        this.about.scrollTop = 0;
+      }
+
+      closeAbout() {
+        this.about.classList.remove("open");
+        if (this.entered) {
+          this.mode = "journey";
+          this.world.enable(true);
+        } else {
+          this.mode = "threshold";
+        }
+      }
+
+      travelTo(index) {
+        if (!this.entered) this.enter();
+        this.closeDrawer();
+        this.nextStation = index;
+        this.world.stationMeshes[index].userData.visited = false;
+        this.world.jumpToStation(index);
+        this.mode = "journey";
+        this.world.enable(true);
+        this.updateApproachLabel();
+        requestAnimationFrame(() => this.openInsight(index));
+      }
+
+      updateApproachLabel() {
+        const index = Math.min(this.nextStation, TEACHINGS.length - 1);
+        const item = TEACHINGS[index];
+        const complete = this.nextStation >= TEACHINGS.length;
+        this.stationName.innerHTML = complete
+          ? `<span>The path continues</span><strong>Take the teaching with you</strong>`
+          : `<span>Approaching stone ${String(index + 1).padStart(2, "0")}</span><strong>${item.title}</strong>`;
+      }
+
+      update() {
+        if (this.mode !== "journey") return;
+        const index = this.nextStation;
+        const station = this.world.stationMeshes[index];
+        if (!station) return;
+        const triggerZ = station.userData.z + 5.2;
+        if (!station.userData.visited && this.world.camera.position.z <= triggerZ) {
+          this.world.camera.position.z = station.userData.z + 5.1;
+          this.openInsight(index);
+        }
+      }
+    }
+
+    try {
+      const canvas = document.getElementById("world");
+      const world = new ArcWorld(canvas);
+      const ui = new UIController(world);
+
+      const loop = () => {
+        world.render();
+        ui.update();
+        requestAnimationFrame(loop);
+      };
+      loop();
+
+      setTimeout(() => document.getElementById("loader").classList.add("complete"), 500);
+
+      if (world.demo) {
+        setTimeout(() => ui.enter(), 800);
+      }
+    } catch (error) {
+      console.error("ARC path failed to initialize", error);
+      document.getElementById("loader").classList.add("complete");
+      document.getElementById("errorFallback").classList.add("visible");
+    }
+  </script>
+</body>
+</html>
