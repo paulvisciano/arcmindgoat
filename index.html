@@ -68,6 +68,19 @@
       background: radial-gradient(circle at 50% 45%, transparent 35%, rgba(0, 0, 0, 0.22) 72%, rgba(0, 0, 0, 0.82) 100%);
     }
 
+    .warp-veil {
+      position: fixed;
+      inset: 0;
+      z-index: 4;
+      pointer-events: none;
+      opacity: 0;
+      background:
+        radial-gradient(circle at 50% 47%, rgba(255, 252, 240, 0.85) 0%, rgba(255, 228, 160, 0.35) 8%, rgba(241, 211, 120, 0.12) 22%, transparent 48%),
+        radial-gradient(circle at 50% 47%, transparent 32%, rgba(201, 156, 60, 0.2) 70%, rgba(8, 4, 0, 0.42) 100%);
+      mix-blend-mode: screen;
+      will-change: opacity;
+    }
+
     .hidden { display: none !important; }
 
     .loader {
@@ -163,6 +176,8 @@
     .text-button:hover { background: var(--gold-light); color: var(--black); border-color: var(--gold-light); }
     .text-button:active, .primary-button:active, .control-button:active { transform: scale(0.97); }
     .header-actions { display: flex; align-items: center; gap: 10px; }
+    .threshold-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    .threshold-cta .text-button { min-height: 54px; padding: 0 22px; }
     .threshold-header .text-button,
     .about-header .text-button { border-radius: 999px; }
 
@@ -212,7 +227,7 @@
       justify-content: space-between;
       gap: 24px;
     }
-    .hud .brand, .hud button { pointer-events: auto; }
+    .hud .brand, .hud button, .hud a { pointer-events: auto; }
     .hud-actions { display: flex; gap: 10px; }
     .hud-action {
       min-height: 40px;
@@ -227,6 +242,13 @@
       transition: border-color 160ms var(--ease-out), color 160ms var(--ease-out), background 160ms var(--ease-out);
     }
     .hud-action:hover { border-color: var(--line-strong); color: var(--gold-light); background: rgba(3, 3, 3, 0.8); }
+    a.hud-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      cursor: pointer;
+    }
 
     .journey-rail {
       position: absolute;
@@ -421,7 +443,7 @@
       padding: 20px clamp(20px, 4vw, 56px);
       backdrop-filter: blur(18px);
     }
-    .about-content { width: min(1180px, calc(100% - 40px)); margin: 0 auto; padding: 90px 0 110px; }
+    .about-content { width: auto; margin: 0; padding: 90px clamp(20px, 4vw, 56px) 110px; }
     .about-hero { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: clamp(44px, 9vw, 120px); align-items: end; margin-bottom: 110px; }
     .about-kicker { color: var(--gold-light); font-size: 0.68rem; letter-spacing: 0.23em; text-transform: uppercase; }
     .about h1 { margin: 16px 0 0; font-family: var(--serif); font-size: clamp(4.3rem, 9vw, 9rem); font-weight: 500; letter-spacing: -0.055em; line-height: 0.76; text-transform: uppercase; }
@@ -443,6 +465,84 @@
       padding: 0 26px;
       font-size: 0.7rem;
       letter-spacing: 0.16em;
+    }
+    .about-language {
+      margin-top: 8px;
+    }
+    .about-language-intro {
+      max-width: 760px;
+      margin-bottom: 56px;
+    }
+    .about-lexicon {
+      display: grid;
+      gap: 88px;
+      margin-top: 0;
+    }
+    .about-symbol {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.42fr) minmax(0, 1fr);
+      gap: 28px 48px;
+      align-items: start;
+    }
+    .about-symbol-visual {
+      margin: 0;
+      width: 100%;
+    }
+    .about-symbol-visual img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      object-position: center;
+      border: 1px solid var(--line-strong);
+      background: #050504;
+    }
+    .about-symbol-visual figcaption {
+      margin-top: 12px;
+      color: var(--gold-light);
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    .about-lexicon h3 {
+      margin: 0 0 16px;
+      color: var(--cream);
+      font-family: var(--serif);
+      font-size: clamp(1.85rem, 3vw, 2.7rem);
+      font-weight: 500;
+      line-height: 1.05;
+    }
+    .about-symbol-copy > p { margin: 0 0 22px; }
+    .about-symbol-copy > p:last-child { margin-bottom: 0; }
+    .about-lexicon dl {
+      grid-column: 1 / -1;
+      margin: 8px 0 0;
+      border-top: 1px solid var(--line);
+    }
+    .about-lexicon dl > div {
+      display: grid;
+      grid-template-columns: 0.42fr 1fr;
+      gap: 20px;
+      align-items: start;
+      border-bottom: 1px solid var(--line);
+      padding: 18px 0;
+    }
+    .about-lexicon dt {
+      color: var(--gold-light);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      line-height: 1.5;
+      text-transform: uppercase;
+      padding-top: 3px;
+    }
+    .about-lexicon dd {
+      margin: 0;
+      color: #bfb7ab;
+      font-size: 0.95rem;
+      line-height: 1.75;
     }
 
     .error-fallback {
@@ -483,7 +583,8 @@
       .threshold-content { top: auto; bottom: 42px; left: 18px; width: calc(100% - 36px); transform: none; }
       .threshold h1 { font-size: clamp(3.8rem, 19vw, 5.5rem); }
       .threshold-copy { max-width: 95%; font-size: 0.95rem; line-height: 1.65; }
-      .primary-button { width: 100%; }
+      .primary-button, .threshold-cta .text-button { width: 100%; }
+      .hud-action[href]::before { content: "↓"; }
       .hud-top { top: 16px; right: 16px; left: 16px; }
       .hud-action { width: 42px; overflow: hidden; padding: 0; font-size: 0; }
       .hud-action::before { font-size: 1.1rem; }
@@ -497,15 +598,22 @@
       .insight-title { font-size: 1.35rem; }
       .drawer { padding: 22px 20px 36px; }
       .about-header { padding: 16px; }
-      .about-content { width: calc(100% - 30px); padding: 64px 0 90px; }
+      .about-content { padding: 64px 16px 90px; }
       .about h1 { font-size: clamp(4rem, 20vw, 6rem); }
       .about-lede { font-size: 1.65rem; }
       .about-section { margin-bottom: 54px; }
+      .about-lexicon { gap: 56px; }
+      .about-language-intro { margin-bottom: 36px; }
+      .about-symbol { grid-template-columns: 1fr; gap: 20px; }
+      .about-symbol-visual { max-width: 420px; }
+      .about-lexicon dl { margin-top: 4px; }
+      .about-lexicon dl > div { grid-template-columns: 1fr; gap: 8px; padding: 16px 0; }
       .about-footer .primary-button, .about-footer .text-button { width: 100%; }
     }
 
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+      .warp-veil { display: none; }
     }
   </style>
 </head>
@@ -513,6 +621,7 @@
   <canvas id="world">Your browser needs WebGL to display the interactive ARC journey.</canvas>
   <div class="noise" aria-hidden="true"></div>
   <div class="vignette" aria-hidden="true"></div>
+  <div class="warp-veil" id="warpVeil" aria-hidden="true"></div>
 
   <div class="loader" id="loader">
     <div class="loader-inner">
@@ -528,6 +637,7 @@
         <span class="brand-copy"><strong>ARCMINDGOAT</strong><small>Align • Resonate • Connect</small></span>
       </a>
       <div class="header-actions">
+        <a class="text-button" href="the-arc-path.pdf" download="The-ARC-Path.pdf">Download the course</a>
         <button class="text-button" type="button" data-toggle-fullscreen>Full screen</button>
         <button class="text-button" type="button" data-open-about>About ARC</button>
       </div>
@@ -536,7 +646,10 @@
       <p class="eyebrow">An interactive journey through ARC</p>
       <h1 id="thresholdTitle">You contain <span>it all.</span></h1>
       <p class="threshold-copy">Walk through the Torii gates. Meet each Flower of Life stone. Bring the questions that trouble you. Leave with a clearer meaning and one available action.</p>
-      <button class="primary-button" id="enterPath" type="button">Enter the path &nbsp;→</button>
+      <div class="threshold-cta">
+        <button class="primary-button" id="enterPath" type="button">Enter the path &nbsp;→</button>
+        <a class="text-button" href="the-arc-path.pdf" download="The-ARC-Path.pdf">Download the course</a>
+      </div>
       <p class="threshold-note">Best experienced with sound off and attention on</p>
     </div>
   </section>
@@ -550,6 +663,7 @@
       <div class="hud-actions">
         <button class="hud-action" id="toggleFullscreen" type="button" data-toggle-fullscreen aria-pressed="false">Full screen</button>
         <button class="hud-action" id="openQuestions" type="button">Questions</button>
+        <a class="hud-action" href="the-arc-path.pdf" download="The-ARC-Path.pdf">Course</a>
         <button class="hud-action" type="button" data-open-about>About ARC</button>
       </div>
     </div>
@@ -643,7 +757,113 @@
             <p>ARC is the practice I created to make that movement visible. <strong>Align</strong> with the moment and recognize the belief. <strong>Resonate</strong> with the meaning that supports who you are. <strong>Connect</strong> through one available action, then observe what life shows you.</p>
             <p>The philosophy begins from wholeness. The practice stays grounded in decisions, conversations, creativity, relationships, and the choices available here and now.</p>
           </section>
+        </div>
+      </div>
 
+      <section class="about-section about-language">
+        <div class="about-language-intro">
+          <p class="eyebrow">The language of the path</p>
+          <h2>The corridor is the practice, made walkable.</h2>
+          <p>The black-and-gold path is not scenery. It is ARC given a body: a sequence you can walk with attention. Black is the field of possibility—what has not yet been named. Gold is what becomes visible when you give a moment honest regard.</p>
+          <p>You move through a gate, meet a ring, receive a question, and leave with one available action. That is Align, Resonate, and Connect, expressed as space. The far light is not a finish line. It is the next step, kept in view.</p>
+        </div>
+
+        <div class="about-lexicon">
+              <article class="about-symbol">
+                <figure class="about-symbol-visual">
+                  <img src="assets/about-gate.jpg" alt="A corridor of black marble Torii gates with gold inlay, opening toward a distant golden light" width="1400" height="1400">
+                  <figcaption>The Gate</figcaption>
+                </figure>
+                <div class="about-symbol-copy">
+                  <p class="eyebrow">The Gates</p>
+                  <h3>Each gate is a crossing.</h3>
+                  <p>A Torii traditionally marks the passage from the ordinary into a sacred precinct. In ARC, each gate is a threshold of recognition: the moment you leave the meaning you have been living inside and walk toward the meaning you are willing to choose. You do not pass a test. You pass through.</p>
+                  <p>The gates repeat because the practice does not end. Every crossing is the same invitation in a new situation—notice the belief, choose the meaning, take the action that is actually available.</p>
+                </div>
+                <dl>
+                  <div>
+                    <dt>Two pillars</dt>
+                    <dd>What is given and what is chosen: the situation as it is, and the meaning you assign. Both are real. Neither has to rule the other.</dd>
+                  </div>
+                  <div>
+                    <dt>The beams</dt>
+                    <dd>The decision that joins inner recognition to outer action. A gate without a lintel is only two posts. A life without a choice is only circumstance.</dd>
+                  </div>
+                  <div>
+                    <dt>Three hanging forms</dt>
+                    <dd>Align. Resonate. Connect. The movement of every crossing, held in the center of the gate you walk through.</dd>
+                  </div>
+                  <div>
+                    <dt>The center emblem</dt>
+                    <dd>Ownership. The one who walks is already the one who chooses. Authority is not waiting at the far light; it is present in the crossing.</dd>
+                  </div>
+                  <div>
+                    <dt>The infinite corridor</dt>
+                    <dd>There is no final gate. Each passage is another beginning. Return is not failure; it is the shape of a living practice.</dd>
+                  </div>
+                </dl>
+              </article>
+
+              <article class="about-symbol">
+                <figure class="about-symbol-visual">
+                  <img src="assets/about-rings.jpg" alt="A gold brushstroke ring with inner concentric gold circles on black" width="1408" height="1408">
+                  <figcaption>The Rings</figcaption>
+                </figure>
+                <div class="about-symbol-copy">
+                  <p class="eyebrow">The Rings</p>
+                  <h3>Each ring is a reminder of wholeness.</h3>
+                  <p>A ring has no missing piece. ARC begins there. The gold circle around the path, the halo above each stone, and the mark that holds the Torii are the same teaching: you already contain the whole. The work is not to complete yourself. It is to recognize what is already enclosed, then act from it.</p>
+                </div>
+                <dl>
+                  <div>
+                    <dt>The enclosing ring</dt>
+                    <dd>A whole moment, held. A chosen meaning works the same way: it does not need every answer, only a boundary honest enough to live inside.</dd>
+                  </div>
+                  <div>
+                    <dt>The gold halo</dt>
+                    <dd>Attention gathering around what is ready to be heard. When a stone brightens, a question is asking for your presence, not your performance.</dd>
+                  </div>
+                  <div>
+                    <dt>The brand ring</dt>
+                    <dd>The Torii sits inside a circle because the threshold belongs to a cycle: walk, recognize, act, return. The ring is the practice holding the gate.</dd>
+                  </div>
+                  <div>
+                    <dt>The journey nodes</dt>
+                    <dd>Each teaching on the rail is a ring in miniature—a complete station you can stand in without having walked every gate first.</dd>
+                  </div>
+                </dl>
+              </article>
+
+              <article class="about-symbol">
+                <figure class="about-symbol-visual">
+                  <img src="assets/about-flower.jpg" alt="A glowing gold Flower of Life carved into a black stone disc on the path" width="1400" height="1400">
+                  <figcaption>The Flower of Life</figcaption>
+                </figure>
+                <div class="about-symbol-copy">
+                  <p class="eyebrow">The Flower of Life</p>
+                  <h3>The stone is where recognition lands.</h3>
+                  <p>Between the gates you meet a disc of black stone, carved with the Flower of Life in gold. It is not a prize at the end of a corridor. It is a place to stop. A question waits there. A meaning becomes visible. One action becomes available.</p>
+                  <p>The pattern is many complete circles sharing one center. That is the first teaching of the path: you contain it all. Nothing essential is missing. The overlapping lines are qualities, contradictions, and choices intersecting in a single life.</p>
+                </div>
+                <dl>
+                  <div>
+                    <dt>Overlapping circles</dt>
+                    <dd>Each ring is whole. Together they form one figure. A person is the same: many complete capacities, one living center.</dd>
+                  </div>
+                  <div>
+                    <dt>The carved gold</dt>
+                    <dd>What is already in the stone, made visible. Recognition does not add a quality you lack. It lights a pattern that was already there.</dd>
+                  </div>
+                  <div>
+                    <dt>The station</dt>
+                    <dd>Eight stones along the path. Each holds a question, a teaching, a reflection, and one available action. Walk them in order, or arrive at the one that is asking for you.</dd>
+                  </div>
+                </dl>
+              </article>
+            </div>
+          </section>
+
+      <div class="about-story">
           <section class="about-section">
             <p class="eyebrow">Why women are central</p>
             <h2>Power does not need permission to exist.</h2>
@@ -658,11 +878,17 @@
             <p>You do not need to become worthy of your life. You begin by recognizing that you are already participating in it.</p>
           </section>
 
+          <section class="about-section">
+            <p class="eyebrow">The course</p>
+            <h2>A methodology you can keep.</h2>
+            <p>The ARC Path is a twenty-two page course: the philosophy, Align · Resonate · Connect, eight stations with practices, a daily crossing, and a worksheet for one real moment. Walk the corridor here. Take the method with you.</p>
+          </section>
+
           <div class="about-footer">
             <button class="primary-button" id="returnToJourney" type="button">Return to the path →</button>
+            <a class="text-button" href="the-arc-path.pdf" download="The-ARC-Path.pdf">Download The ARC Path</a>
             <a class="text-button" href="https://www.instagram.com/arcmindgoat/" target="_blank" rel="noopener noreferrer">Follow @ARCMINDGOAT ↗</a>
           </div>
-        </div>
       </div>
     </div>
   </section>
@@ -671,8 +897,9 @@
     <div>
       <p class="eyebrow">The ARC Path</p>
       <h2>The 3D path could not open in this browser.</h2>
-      <p>The teaching remains available through the About ARC journey. Try a current version of Chrome, Safari, Firefox, or Edge for the full walkable experience.</p>
+      <p>The teaching remains available through the About ARC journey and the downloadable course. Try a current version of Chrome, Safari, Firefox, or Edge for the full walkable experience.</p>
       <button class="primary-button" type="button" data-open-about>Open About ARC</button>
+      <p style="margin-top:18px;"><a class="text-button" href="the-arc-path.pdf" download="The-ARC-Path.pdf">Download The ARC Path</a></p>
     </div>
   </div>
 
@@ -767,6 +994,16 @@
         this.enabled = false;
         this.demo = new URLSearchParams(location.search).has("demo");
 
+        this.baseFov = 58;
+        this.baseExposure = 1.16;
+        this.baseFog = 0.0078;
+        this.warpAmount = 0;
+        this.warpPulse = 0;
+        this.worldTime = 0;
+        this._gateSign = 1;
+        this.reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+        this.warpVeil = document.getElementById("warpVeil");
+
         this.gateSpacing = 9;
         this.gateCount = 18;
         this.gates = [];
@@ -778,7 +1015,9 @@
         this.createGatePool();
         this.createPath();
         this.createParticles();
+        this.createWarpField();
         this.createStations();
+        this.createWarpPass();
         this.bindResize();
       }
 
@@ -987,30 +1226,37 @@
         return material;
       }
 
-      cloneMaps(maps, repeatX, repeatY) {
-        const map = maps.map.clone();
-        const bumpMap = maps.bumpMap.clone();
-        const roughnessMap = maps.roughnessMap.clone();
-        map.repeat.set(repeatX, repeatY);
-        bumpMap.repeat.set(repeatX, repeatY);
-        roughnessMap.repeat.set(repeatX, repeatY);
-        return { map, bumpMap, roughnessMap };
+      loadTexture(url, { colorSpace = THREE.SRGBColorSpace, repeatX = 1, repeatY = 1 } = {}) {
+        const tex = new THREE.TextureLoader().load(url);
+        tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+        tex.colorSpace = colorSpace;
+        tex.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
+        tex.repeat.set(repeatX, repeatY);
+        return tex;
+      }
+
+      marbleSet(albedo, bump, rough, repeatX, repeatY) {
+        return {
+          map: this.loadTexture(albedo, { repeatX, repeatY }),
+          bumpMap: this.loadTexture(bump, { colorSpace: THREE.NoColorSpace, repeatX, repeatY }),
+          roughnessMap: this.loadTexture(rough, { colorSpace: THREE.NoColorSpace, repeatX, repeatY })
+        };
       }
 
       createMaterials() {
         const env = this.makeEnvMap();
         this.scene.environment = env;
 
-        const marble = this.makeMarbleMaps();
-        const pillarMaps = this.cloneMaps(marble, 1, 2.15);
-        const beamMaps = this.cloneMaps(marble, 2.6, 0.45);
-        const floor = this.makeFloorMaps();
+        const pillarMaps = this.marbleSet("assets/marble-veins.jpg", "assets/marble-veins-bump.jpg", "assets/marble-veins-rough.jpg", 1, 2.05);
+        const beamMaps = this.marbleSet("assets/marble-veins.jpg", "assets/marble-veins-bump.jpg", "assets/marble-veins-rough.jpg", 2.4, 0.5);
+        const softMaps = this.marbleSet("assets/marble-soft.jpg", "assets/marble-floor-bump.jpg", "assets/marble-floor-rough.jpg", 1, 1);
+        const floor = this.marbleSet("assets/marble-floor.jpg", "assets/marble-floor-bump.jpg", "assets/marble-floor-rough.jpg", 1.15, 4.5);
 
         this.obsidian = this.withGoldFresnel(new THREE.MeshPhysicalMaterial({
           color: 0xffffff,
           map: pillarMaps.map,
           bumpMap: pillarMaps.bumpMap,
-          bumpScale: 0.038,
+          bumpScale: 0.045,
           roughnessMap: pillarMaps.roughnessMap,
           roughness: 0.34,
           metalness: 0.22,
@@ -1034,10 +1280,10 @@
 
         this.obsidianSoft = new THREE.MeshPhysicalMaterial({
           color: 0xffffff,
-          map: marble.map,
-          bumpMap: marble.bumpMap,
+          map: softMaps.map,
+          bumpMap: softMaps.bumpMap,
           bumpScale: 0.03,
-          roughnessMap: marble.roughnessMap,
+          roughnessMap: softMaps.roughnessMap,
           roughness: 0.42,
           metalness: 0.18,
           envMapIntensity: 0.7,
@@ -1209,7 +1455,9 @@
           kasagiSoffit: this.createCurvedBeamGeometry({ length: 9.05, height: 0.04, depth: 0.86, lift: 0.7, segs: 56, topTaper: 1 }),
           emblem: new THREE.TorusGeometry(0.2, 0.038, 14, 48),
           star: new THREE.OctahedronGeometry(0.085, 0),
-          drop: new THREE.ConeGeometry(0.045, 0.26, 10)
+          drop: new THREE.ConeGeometry(0.045, 0.26, 10),
+          veil: new THREE.PlaneGeometry(6.2, 6.4),
+          horizon: new THREE.RingGeometry(1.02, 1.18, 72)
         });
 
         [-3.05, 3.05].forEach(x => {
@@ -1310,7 +1558,35 @@
           gate.add(drop);
         });
 
+        const veil = new THREE.Mesh(geo.veil, new THREE.MeshBasicMaterial({
+          color: 0xffe7b0,
+          transparent: true,
+          opacity: 0,
+          blending: THREE.AdditiveBlending,
+          depthWrite: false,
+          fog: false,
+          toneMapped: false,
+          side: THREE.DoubleSide
+        }));
+        veil.position.set(0, 3.15, 0);
+        gate.add(veil);
+
+        const horizon = new THREE.Mesh(geo.horizon, new THREE.MeshBasicMaterial({
+          color: 0xffefc2,
+          transparent: true,
+          opacity: 0,
+          blending: THREE.AdditiveBlending,
+          depthWrite: false,
+          fog: false,
+          toneMapped: false,
+          side: THREE.DoubleSide
+        }));
+        horizon.position.set(0, 3.15, 0.02);
+        gate.add(horizon);
+
         gate.userData.phase = Math.random() * Math.PI * 2;
+        gate.userData.veil = veil;
+        gate.userData.horizon = horizon;
         return gate;
       }
 
@@ -1352,30 +1628,150 @@
         }
       }
 
-      createParticles() {
-        const count = 720;
+      makeStarTexture(size = 64) {
+        const canvas = document.createElement("canvas");
+        canvas.width = canvas.height = size;
+        const ctx = canvas.getContext("2d");
+        const mid = size / 2;
+        const ray = (angle, length, width, alpha) => {
+          ctx.save();
+          ctx.translate(mid, mid);
+          ctx.rotate(angle);
+          const g = ctx.createLinearGradient(-length, 0, length, 0);
+          g.addColorStop(0, "rgba(255,255,255,0)");
+          g.addColorStop(0.5, `rgba(255,245,210,${alpha})`);
+          g.addColorStop(1, "rgba(255,255,255,0)");
+          ctx.fillStyle = g;
+          ctx.fillRect(-length, -width / 2, length * 2, width);
+          ctx.restore();
+        };
+        ray(0, mid, 1.6, 0.75);
+        ray(Math.PI / 2, mid, 1.6, 0.75);
+        ray(Math.PI / 4, mid * 0.52, 0.8, 0.28);
+        ray(-Math.PI / 4, mid * 0.52, 0.8, 0.28);
+        const glow = ctx.createRadialGradient(mid, mid, 0, mid, mid, mid * 0.42);
+        glow.addColorStop(0, "rgba(255,255,255,1)");
+        glow.addColorStop(0.2, "rgba(255,244,210,0.95)");
+        glow.addColorStop(0.45, "rgba(232,197,106,0.32)");
+        glow.addColorStop(1, "rgba(232,197,106,0)");
+        ctx.fillStyle = glow;
+        ctx.beginPath();
+        ctx.arc(mid, mid, mid * 0.42, 0, Math.PI * 2);
+        ctx.fill();
+        const tex = new THREE.CanvasTexture(canvas);
+        tex.colorSpace = THREE.SRGBColorSpace;
+        tex.needsUpdate = true;
+        return tex;
+      }
+
+      createStarField(count, { radiusMin, radiusMax, yMin, yMax, zMin, zMax, size, opacity, color }) {
         const positions = new Float32Array(count * 3);
-        const sizes = new Float32Array(count);
+        const phases = new Float32Array(count);
         for (let i = 0; i < count; i += 1) {
-          const angle = i * 2.399963;
-          const radius = 4.2 + ((i * 1.618033) % 1) * 16;
-          positions[i * 3] = Math.cos(angle) * radius;
-          positions[i * 3 + 1] = 0.4 + ((i * 0.754877) % 1) * 9;
-          positions[i * 3 + 2] = 10 - ((i * 0.381966) % 1) * 200;
-          sizes[i] = 0.02 + ((i * 0.618) % 1) * 0.07;
+          const t = (i * 0.6180339887) % 1;
+          const side = i % 2 === 0 ? 1 : -1;
+          positions[i * 3] = side * (5.8 + ((i * 1.324717) % 1) * (radiusMax - 5.8));
+          positions[i * 3 + 1] = yMin + ((i * 0.754877) % 1) * (yMax - yMin);
+          positions[i * 3 + 2] = zMin - ((i * 0.381966) % 1) * (zMin - zMax);
+          phases[i] = t * Math.PI * 2;
         }
         const geometry = new THREE.BufferGeometry();
         geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+        geometry.setAttribute("phase", new THREE.BufferAttribute(phases, 1));
         const material = new THREE.PointsMaterial({
-          color: 0xe8c56a,
-          size: 0.055,
+          map: this.starMap,
+          color,
+          size,
           transparent: true,
-          opacity: 0.62,
+          opacity,
           sizeAttenuation: true,
-          depthWrite: false
+          depthWrite: false,
+          blending: THREE.AdditiveBlending,
+          fog: false
         });
-        this.particles = new THREE.Points(geometry, material);
-        this.scene.add(this.particles);
+        const points = new THREE.Points(geometry, material);
+        points.frustumCulled = false;
+        return points;
+      }
+
+      createParticles() {
+        this.starMap = this.makeStarTexture();
+        this.starField = this.createStarField(900, {
+          radiusMin: 7,
+          radiusMax: 28,
+          yMin: -2,
+          yMax: 14,
+          zMin: 12,
+          zMax: -220,
+          size: 0.09,
+          opacity: 0.85,
+          color: 0xfff6dc
+        });
+        this.starSparkles = this.createStarField(120, {
+          radiusMin: 6,
+          radiusMax: 18,
+          yMin: 0.6,
+          yMax: 10,
+          zMin: 8,
+          zMax: -180,
+          size: 0.22,
+          opacity: 0.9,
+          color: 0xffe7a8
+        });
+        this.scene.add(this.starField, this.starSparkles);
+        this.particles = this.starField;
+      }
+
+      createWarpField() {
+        const count = 340;
+        const geo = new THREE.BoxGeometry(1, 1, 1);
+        const mat = new THREE.MeshBasicMaterial({
+          color: 0xffe7b0,
+          transparent: true,
+          opacity: 0,
+          blending: THREE.AdditiveBlending,
+          depthWrite: false,
+          fog: false,
+          toneMapped: false
+        });
+        this.warpStreaks = new THREE.InstancedMesh(geo, mat, count);
+        this.warpStreaks.frustumCulled = false;
+        this.warpStreaks.visible = false;
+        this.warpStreaks.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+        this.warpStreakData = new Array(count);
+        for (let i = 0; i < count; i += 1) {
+          const t = (i * 0.6180339887) % 1;
+          this.warpStreakData[i] = {
+            angle: t * Math.PI * 2 + i * 0.13,
+            radius: 0.7 + (i % 9) * 0.42 + t * 2.6,
+            z: ((i * 0.381966) % 1) * 40,
+            len: 0.7 + (i % 6) * 0.38,
+            spin: (i % 2 === 0 ? 1 : -1) * (0.05 + t * 0.1)
+          };
+        }
+        this._streakDummy = new THREE.Object3D();
+        this.scene.add(this.warpStreaks);
+
+        this.warpTunnel = new THREE.Group();
+        this.warpRingMeshes = [];
+        const ringGeo = new THREE.RingGeometry(1.7, 1.78, 64);
+        for (let i = 0; i < 12; i += 1) {
+          const ring = new THREE.Mesh(ringGeo, new THREE.MeshBasicMaterial({
+            color: 0xffe4a0,
+            transparent: true,
+            opacity: 0,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false,
+            side: THREE.DoubleSide,
+            fog: false,
+            toneMapped: false
+          }));
+          ring.userData.offset = (i / 12) * 32;
+          this.warpTunnel.add(ring);
+          this.warpRingMeshes.push(ring);
+        }
+        this.warpTunnel.visible = false;
+        this.scene.add(this.warpTunnel);
       }
 
       createStations() {
@@ -1421,12 +1817,110 @@
         });
       }
 
+      createWarpPass() {
+        const size = this.renderer.getDrawingBufferSize(new THREE.Vector2());
+        this.warpTarget = new THREE.WebGLRenderTarget(size.x, size.y, {
+          minFilter: THREE.LinearFilter,
+          magFilter: THREE.LinearFilter,
+          format: THREE.RGBAFormat,
+          stencilBuffer: false,
+          depthBuffer: true,
+          samples: 4,
+          colorSpace: THREE.LinearSRGBColorSpace
+        });
+        this.warpScene = new THREE.Scene();
+        this.warpCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+        this.warpMaterial = new THREE.ShaderMaterial({
+          uniforms: {
+            tDiffuse: { value: null },
+            uWarp: { value: 0 },
+            uPulse: { value: 0 },
+            uTime: { value: 0 },
+            uAspect: { value: size.x / Math.max(size.y, 1) }
+          },
+          vertexShader: `
+            varying vec2 vUv;
+            void main() {
+              vUv = uv;
+              gl_Position = vec4(position.xy, 0.0, 1.0);
+            }
+          `,
+          fragmentShader: `
+            uniform sampler2D tDiffuse;
+            uniform float uWarp;
+            uniform float uPulse;
+            uniform float uTime;
+            uniform float uAspect;
+            varying vec2 vUv;
+
+            void main() {
+              vec2 center = vec2(0.5, 0.47);
+              vec2 uv = vUv;
+              vec2 delta = uv - center;
+              delta.x *= uAspect;
+              float r = length(delta);
+              vec2 dir = r > 0.0001 ? delta / r : vec2(0.0);
+              vec2 dirUv = vec2(dir.x / uAspect, dir.y);
+
+              float w = uWarp;
+              float pulse = uPulse;
+              float stretch = w * 0.62 + pulse * 0.4;
+              vec2 warped = clamp(uv - dirUv * r * stretch * 0.28, vec2(0.001), vec2(0.999));
+
+              vec3 base = texture2D(tDiffuse, warped).rgb;
+              vec3 streak = vec3(0.0);
+              float wtSum = 0.0;
+              float streakLen = 0.22 * w + 0.16 * pulse;
+              for (int i = 0; i < 16; i++) {
+                float t = float(i) / 15.0;
+                float wt = 1.0 - t * 0.82;
+                vec2 suv = clamp(warped - dirUv * t * streakLen, vec2(0.001), vec2(0.999));
+                streak += texture2D(tDiffuse, suv).rgb * wt;
+                wtSum += wt;
+              }
+              streak /= max(wtSum, 0.001);
+
+              float streakAmt = smoothstep(0.012, 0.26, r) * min(1.0, w * 1.2 + pulse * 0.55);
+              vec3 col = mix(base, streak, streakAmt);
+
+              float ca = (w * 0.02 + pulse * 0.014) * r;
+              col.r = mix(col.r, texture2D(tDiffuse, clamp(warped - dirUv * ca, 0.001, 0.999)).r, min(1.0, w + pulse));
+              col.b = mix(col.b, texture2D(tDiffuse, clamp(warped + dirUv * ca * 0.55, 0.001, 0.999)).b, min(1.0, w * 0.75));
+
+              vec3 gold = vec3(1.0, 0.86, 0.5);
+              vec3 hot = vec3(1.0, 0.96, 0.84);
+              float core = 1.0 - smoothstep(0.0, 0.16 + pulse * 0.1, r);
+              col += hot * core * (w * 0.42 + pulse * 1.15);
+              col += gold * pulse * 0.28 * (1.0 - smoothstep(0.08, 0.72, r));
+              float tunnel = smoothstep(0.12, 0.92, r);
+              col = mix(col, col * gold * 1.28, tunnel * w * 0.4);
+
+              gl_FragColor = vec4(col, 1.0);
+            }
+          `,
+          depthTest: false,
+          depthWrite: false,
+          toneMapped: false
+        });
+        const quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), this.warpMaterial);
+        quad.frustumCulled = false;
+        this.warpScene.add(quad);
+      }
+
+      resizeWarpPass() {
+        if (!this.warpTarget) return;
+        const size = this.renderer.getDrawingBufferSize(new THREE.Vector2());
+        this.warpTarget.setSize(size.x, size.y);
+        this.warpMaterial.uniforms.uAspect.value = size.x / Math.max(size.y, 1);
+      }
+
       bindResize() {
         this.resizeHandler = () => {
           this.camera.aspect = innerWidth / innerHeight;
           this.camera.updateProjectionMatrix();
           this.renderer.setSize(innerWidth, innerHeight);
           this.renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+          this.resizeWarpPass();
         };
         addEventListener("resize", this.resizeHandler);
       }
@@ -1436,7 +1930,7 @@
       }
 
       addImpulse(value) {
-        this.impulse = THREE.MathUtils.clamp(this.impulse + value, -5, 6);
+        this.impulse = THREE.MathUtils.clamp(this.impulse + value, -8, 14);
       }
 
       setPointer(x, y) {
@@ -1455,6 +1949,89 @@
         this.camera.position.z = station.userData.z + 6.2;
         this.velocity = 0;
         this.impulse = 0;
+        this.resetWarp();
+      }
+
+      resetWarp() {
+        this.warpAmount = 0;
+        this.warpPulse = 0;
+        this._gateSign = 1;
+        this.camera.fov = this.baseFov;
+        this.camera.rotation.z = 0;
+        this.camera.updateProjectionMatrix();
+        this.renderer.toneMappingExposure = this.baseExposure;
+        if (this.scene.fog) this.scene.fog.density = this.baseFog;
+        this.travelLight.intensity = 28;
+        this.innerLeftLight.intensity = 16;
+        this.innerRightLight.intensity = 16;
+        this.gates.forEach(gate => {
+          gate.scale.set(1, 1, 1);
+          if (gate.userData.veil) gate.userData.veil.material.opacity = 0;
+          if (gate.userData.horizon) {
+            gate.userData.horizon.material.opacity = 0;
+            gate.userData.horizon.scale.set(1, 1, 1);
+          }
+        });
+        this.stationMeshes.forEach(station => {
+          station.userData.halo.scale.set(1, 1, 1);
+          station.userData.halo.material.opacity = 0.42;
+        });
+        if (this.warpVeil) this.warpVeil.style.opacity = "0";
+        if (this.starSparkles) this.starSparkles.material.size = 0.22;
+        if (this.warpStreaks) {
+          this.warpStreaks.visible = false;
+          this.warpStreaks.material.opacity = 0;
+        }
+        if (this.warpTunnel) this.warpTunnel.visible = false;
+        if (this.warpRingMeshes) {
+          this.warpRingMeshes.forEach(ring => { ring.material.opacity = 0; });
+        }
+      }
+
+      updateWarpField(dt, elapsed, warp, pulse) {
+        const show = warp > 0.03 && !this.reduceMotion;
+        if (this.warpStreaks) this.warpStreaks.visible = show;
+        if (this.warpTunnel) this.warpTunnel.visible = show;
+        if (!show) {
+          if (this.warpStreaks) this.warpStreaks.material.opacity = 0;
+          return;
+        }
+
+        const cam = this.camera.position;
+        const dummy = this._streakDummy;
+        const span = 40;
+        const rush = elapsed * (12 + warp * 55 + pulse * 20);
+        this.warpStreaks.material.opacity = Math.min(1, warp * 0.9 + pulse * 0.55);
+
+        for (let i = 0; i < this.warpStreakData.length; i += 1) {
+          const s = this.warpStreakData[i];
+          let offset = s.z - rush * (0.55 + s.len * 0.18);
+          offset = ((offset % span) + span) % span;
+          const rad = s.radius * (1 - warp * 0.18);
+          dummy.position.set(
+            cam.x + Math.cos(s.angle + elapsed * s.spin * warp) * rad,
+            Math.max(0.12, cam.y + Math.sin(s.angle + elapsed * s.spin * warp) * rad * 0.52),
+            cam.z - offset
+          );
+          dummy.scale.set(
+            0.01 + warp * 0.012 + pulse * 0.008,
+            0.01 + warp * 0.012 + pulse * 0.008,
+            s.len * (0.2 + warp * 18 + pulse * 8)
+          );
+          dummy.updateMatrix();
+          this.warpStreaks.setMatrixAt(i, dummy.matrix);
+        }
+        this.warpStreaks.instanceMatrix.needsUpdate = true;
+
+        const ringSpan = 32;
+        this.warpRingMeshes.forEach(ring => {
+          let z = ring.userData.offset - elapsed * (14 + warp * 36 + pulse * 12);
+          z = ((z % ringSpan) + ringSpan) % ringSpan;
+          ring.position.set(cam.x, cam.y, cam.z - z);
+          const k = 1 - z / ringSpan;
+          ring.scale.setScalar(0.55 + k * 2.1 + warp * 0.35);
+          ring.material.opacity = (0.1 + warp * 0.55 + pulse * 0.35) * (0.35 + k * 0.65);
+        });
       }
 
       update(delta, elapsed) {
@@ -1466,22 +2043,72 @@
         this.impulse *= Math.pow(0.08, dt);
         if (!this.enabled) this.velocity *= Math.pow(0.015, dt);
 
+        let nearest = null;
+        let nearestDist = 99;
+        this.stationMeshes.forEach(station => {
+          const d = this.camera.position.z - station.userData.z;
+          if (Math.abs(d) < Math.abs(nearestDist)) {
+            nearest = station;
+            nearestDist = d;
+          }
+        });
+
+        const speed = Math.abs(this.velocity);
+        const proximity = Math.exp(-(nearestDist * nearestDist) / (2 * 1.05 * 1.05));
+        const motion = THREE.MathUtils.smoothstep(speed, 0.1, 1.4);
+        if (this._gateSign > 0 && nearestDist <= 0 && speed > 0.25) {
+          this.warpPulse = 1;
+          this.impulse = Math.max(this.impulse, 7);
+        }
+        this._gateSign = nearestDist;
+        this.warpPulse *= Math.exp(-dt / 0.32);
+
+        let targetWarp = this.reduceMotion ? 0 : proximity * (0.18 + 0.82 * motion);
+        targetWarp = Math.min(1, targetWarp + this.warpPulse * 0.7);
+        if (!this.enabled) targetWarp = 0;
+        this.warpAmount += (targetWarp - this.warpAmount) * Math.min(1, dt * 8);
+        const warp = this.warpAmount;
+        const timeScale = 1 + warp * 0.55;
+        this.worldTime += dt * timeScale;
+
         this.camera.position.z -= this.velocity * dt;
         this.camera.position.z = Math.min(6.5, this.camera.position.z);
         this.distance += Math.abs(this.velocity * dt);
-        this.camera.position.y = 1.88 + Math.sin(elapsed * 4.4) * Math.min(Math.abs(this.velocity) * 0.013, 0.045);
+        this.camera.position.y = 1.88 + Math.sin(this.worldTime * 4.4) * Math.min(speed * 0.013, 0.045);
         this.camera.position.x += (this.pointerX * 0.3 - this.camera.position.x) * Math.min(1, dt * 2.6);
         this.camera.rotation.y += (-this.pointerX * 0.055 - this.camera.rotation.y) * Math.min(1, dt * 3);
         this.camera.rotation.x += (-this.pointerY * 0.025 - this.camera.rotation.x) * Math.min(1, dt * 3);
+        const roll = Math.sin(this.worldTime * 2.4) * warp * 0.012 + this.warpPulse * 0.018 * Math.sin(elapsed * 11);
+        this.camera.rotation.z += (roll - this.camera.rotation.z) * Math.min(1, dt * 8);
+
+        const fov = this.baseFov + warp * 16 + this.warpPulse * 10;
+        if (Math.abs(fov - this.camera.fov) > 0.01) {
+          this.camera.fov = fov;
+          this.camera.updateProjectionMatrix();
+        }
+
+        this.renderer.toneMappingExposure = this.baseExposure + warp * 0.38 + this.warpPulse * 0.55;
+        if (this.scene.fog) this.scene.fog.density = this.baseFog * (1 - warp * 0.72);
 
         const z = this.camera.position.z;
         this.travelLight.position.set(this.camera.position.x, 4.6, z - 7);
         this.innerLeftLight.position.set(-2.15, 3.35, z - 4.2);
         this.innerRightLight.position.set(2.15, 3.35, z - 4.2);
+        this.travelLight.intensity = 28 + warp * 36 + this.warpPulse * 22;
+        this.innerLeftLight.intensity = 16 + warp * 18;
+        this.innerRightLight.intensity = 16 + warp * 18;
 
         const gateSpan = this.gateCount * this.gateSpacing;
         this.gates.forEach(gate => {
-          if (gate.position.z > this.camera.position.z + 12) gate.position.z -= gateSpan;
+          if (gate.position.z > this.camera.position.z + 12) {
+            gate.position.z -= gateSpan;
+            gate.scale.set(1, 1, 1);
+          }
+          if (gate.userData.veil) gate.userData.veil.material.opacity = 0;
+          if (gate.userData.horizon) {
+            gate.userData.horizon.material.opacity = 0;
+            gate.userData.horizon.scale.set(1, 1, 1);
+          }
         });
 
         const pathSpan = this.pathSegments.length * 34;
@@ -1489,21 +2116,44 @@
           if (segment.position.z > this.camera.position.z + 24) segment.position.z -= pathSpan;
         });
 
-        this.particles.position.z = this.camera.position.z * 0.18;
-        this.particles.material.opacity = 0.46 + Math.sin(elapsed * 0.7) * 0.08;
+        this.starField.position.z = this.camera.position.z * 0.04;
+        this.starSparkles.position.z = this.camera.position.z * 0.12;
+        this.starField.material.opacity = 0.72 + Math.sin(this.worldTime * 0.35) * 0.08;
+        this.starSparkles.material.opacity = 0.55 + Math.sin(this.worldTime * 1.6) * 0.35;
+        this.starSparkles.material.size = 0.22 + warp * 0.7;
+        this.starField.material.size = 0.09 + warp * 0.22;
 
         this.stationMeshes.forEach((station, index) => {
-          station.userData.halo.rotation.z += dt * (0.18 + index * 0.012);
-          station.userData.halo.position.y = station.userData.baseY + Math.sin(elapsed * 1.3 + index) * 0.08;
-          station.userData.light.intensity = 4.3 + Math.sin(elapsed * 2 + index) * 0.8;
+          const local = station === nearest ? proximity : 0;
+          station.userData.halo.rotation.z += dt * timeScale * (0.18 + index * 0.012);
+          station.userData.halo.position.y = station.userData.baseY + Math.sin(this.worldTime * 1.3 + index) * 0.08;
+          station.userData.light.intensity = 4.3 + Math.sin(this.worldTime * 2 + index) * 0.8 + local * (warp * 8 + this.warpPulse * 6);
+          const haloScale = 1 + local * (warp * 0.85 + this.warpPulse * 0.55);
+          station.userData.halo.scale.set(haloScale, haloScale, 1 + local * warp * 1.4);
+          station.userData.halo.material.opacity = 0.42 + local * (warp * 0.55 + this.warpPulse * 0.4);
         });
+
+        this.updateWarpField(dt, elapsed, warp, this.warpPulse);
+        if (this.warpVeil) this.warpVeil.style.opacity = String(Math.min(1, warp * 0.7 + this.warpPulse * 0.85));
       }
 
       render() {
         const dt = this.clock.getDelta();
         const elapsed = this.clock.elapsedTime;
         this.update(dt, elapsed);
-        this.renderer.render(this.scene, this.camera);
+
+        if (this.warpAmount > 0.012 && this.warpTarget && !this.reduceMotion) {
+          this.renderer.setRenderTarget(this.warpTarget);
+          this.renderer.render(this.scene, this.camera);
+          this.warpMaterial.uniforms.tDiffuse.value = this.warpTarget.texture;
+          this.warpMaterial.uniforms.uWarp.value = this.warpAmount;
+          this.warpMaterial.uniforms.uPulse.value = this.warpPulse;
+          this.warpMaterial.uniforms.uTime.value = elapsed;
+          this.renderer.setRenderTarget(null);
+          this.renderer.render(this.warpScene, this.warpCamera);
+        } else {
+          this.renderer.render(this.scene, this.camera);
+        }
       }
     }
 
@@ -1680,7 +2330,7 @@
         addEventListener("wheel", event => {
           if (this.mode !== "journey") return;
           event.preventDefault();
-          this.world.addImpulse(event.deltaY * 0.012);
+          this.world.addImpulse(event.deltaY * 0.034);
           this.movementHint.classList.add("faded");
         }, { passive: false });
 
@@ -1731,6 +2381,7 @@
         this.threshold.classList.remove("exited");
         this.hud.classList.remove("visible");
         this.world.enable(false);
+        this.world.resetWarp();
       }
 
       openInsight(index) {
